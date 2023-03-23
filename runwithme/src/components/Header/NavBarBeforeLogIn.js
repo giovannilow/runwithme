@@ -262,41 +262,47 @@ const MobileNavItem = ({ label, children, href }) => {
 
 const NAV_ITEMS = [
   {
-    label: "Inspiration",
+    label: "Product",
     children: [
       {
-        label: "Explore Design Work",
-        subLabel: "Trending Design to inspire you",
+        label: "Features",
+        subLabel: "See what you can do with us",
         href: "#",
       },
       {
-        label: "New & Noteworthy",
-        subLabel: "Up-and-coming Designers",
+        label: "Discover",
+        subLabel: "Find what's happening in RunWithMe",
+        href: "#",
+      },
+      {
+        label: "Join",
+        subLabel: "Become a part of our community",
         href: "#",
       },
     ],
   },
   {
-    label: "Find Work",
+    label: "Solutions",
     children: [
       {
-        label: "Job Board",
-        subLabel: "Find your dream design job",
+        label: "Create a Business Profile",
+        subLabel: "Showcase your business",
         href: "#",
       },
       {
-        label: "Freelance Projects",
-        subLabel: "An exclusive list for contract work",
+        label: "Events",
+        subLabel: "Promote your events with RunWithMe",
+        href: "#",
+      },
+      {
+        label: "Marketing",
+        subLabel: "Reach potential customers through advertising",
         href: "#",
       },
     ],
   },
   {
-    label: "Learn Design",
-    href: "#",
-  },
-  {
-    label: "Hire Designers",
+    label: "Admin",
     href: "#",
   },
 ];

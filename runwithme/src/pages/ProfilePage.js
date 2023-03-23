@@ -35,7 +35,8 @@ export default function ProfilePage() {
             {error}
           </Alert>
         )}
-        <strong>Email:</strong> {currentUser.email}
+        <strong>Email:</strong> 
+        {/* {currentUser.email} */}
         <Button
           colorScheme={"teal"}
           href="/UpdateProfile"
