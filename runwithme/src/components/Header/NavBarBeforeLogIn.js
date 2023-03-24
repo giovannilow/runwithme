@@ -79,9 +79,9 @@ export default function WithSubnavigation() {
             fontSize={"sm"}
             fontWeight={400}
             variant={"link"}
-            href={"#"}
+            onClick={() => router.push("/Login")}
           >
-            Sign In
+            Log In
           </Button>
           <Button
             as={"a"}

@@ -1,9 +1,9 @@
-import ProfilePage from "./ProfilePage";
+import HomeBefLogin from "./HomeBefLogin";
 
 const Home = () => {
   return (
     <>
-      <ProfilePage /> //replace this with home page before login once done
+      <HomeBefLogin />
     </>
   );
 };
