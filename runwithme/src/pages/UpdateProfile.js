@@ -73,6 +73,7 @@ export default function UpdateProfile() {
               ref={passwordRef}
               mb={6}
               type="password"
+              width="300px"
               // onChange={(event) => setPassword(event.currentTarget.value)}
             />
           </FormControl>

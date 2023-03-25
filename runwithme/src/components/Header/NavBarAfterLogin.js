@@ -77,7 +77,7 @@ export default function withAction() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box>Logo</Box>
+            <Box onClick={() => router.push("/HomeAftLogin")}>Logo</Box>
             <HStack
               as={"nav"}
               spacing={4}
