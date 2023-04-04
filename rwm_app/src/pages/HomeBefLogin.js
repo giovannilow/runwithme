@@ -58,6 +58,7 @@ export default function HomeBefLogin() {
           position: "relative",
           backgroundPosition: "center",
           backgroundRepeat: "no-repeat",
+          maxWidth: "75%"
         }}
       >
         <div

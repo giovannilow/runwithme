@@ -21,7 +21,12 @@ import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRouter } from "next/router";
 
-const Links = ["Dashboard", "Projects", "Team"];
+const Links = [
+  {
+    name: "My Events",
+    url: "/MyEvents",
+  },
+];
 
 const NavLink = ({ children }) => (
   <Link
@@ -32,9 +37,9 @@ const NavLink = ({ children }) => (
       textDecoration: "none",
       bg: useColorModeValue("gray.200", "gray.700"),
     }}
-    href={"#"}
+    href={children.url}
   >
-    {children}
+    {children.name}
   </Link>
 );
 
@@ -95,8 +100,11 @@ export default function withAction() {
               size={"sm"}
               mr={4}
               leftIcon={<AddIcon />}
+              onClick={() => {
+                router.push("/CreateEvent");
+              }}
             >
-              Action
+              New Run
             </Button>
             <Menu>
               <MenuButton

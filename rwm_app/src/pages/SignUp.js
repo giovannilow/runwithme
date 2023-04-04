@@ -28,6 +28,7 @@ export default function SignUp() {
       setError("");
       setLoading(true);
       await signup(emailRef.current.value, passwordRef.current.value);
+      set
       router.push("/");
     } catch {
       setError("Failed to create an account");
@@ -71,7 +72,7 @@ export default function SignUp() {
                 variant="filled"
                 mb={3}
                 type="email"
-                // onChange={(event) => setEmail(event.currentTarget.value)}
+                onChange={(event) => setEmail(event.currentTarget.value)}
               />
             </FormControl>
             <FormControl isRequired>
@@ -84,7 +85,7 @@ export default function SignUp() {
                 mb={6}
                 type="password"
                 width="300px"
-                // onChange={(event) => setPassword(event.currentTarget.value)}
+                onChange={(event) => setPassword(event.currentTarget.value)}
               />
             </FormControl>
             <FormControl isRequired>

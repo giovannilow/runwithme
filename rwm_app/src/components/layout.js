@@ -5,7 +5,7 @@ export default function Layout({ children }) {
     <>
       <Header />
       <main>{children}</main>
-      //insert footer after having one
+      insert footer
     </>
   );
 }

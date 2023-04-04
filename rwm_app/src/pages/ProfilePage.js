@@ -13,8 +13,8 @@ export default function ProfilePage() {
     setError("");
 
     try {
-      await logout();
       router.push("/Login");
+      await logout();
     } catch {
       setError("Failed to log out");
     }
@@ -35,14 +35,16 @@ export default function ProfilePage() {
             {error}
           </Alert>
         )}
-        <strong>Email:</strong> 
-        {/* {currentUser.email} */}
+        <strong>Email:</strong>
+        {currentUser.email}
         <Button
           colorScheme={"teal"}
-          href="/UpdateProfile"
           w-100
           text-center
           mt={5}
+          onClick={() => {
+            router.push("/UpdateProfile");
+          }}
         >
           Update Profile
         </Button>
