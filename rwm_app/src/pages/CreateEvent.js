@@ -40,8 +40,8 @@ export default function CreateEvent() {
             // Save the event data to Firebase Realtime Database
             await push(dbRef, eventData);
 
-            // Navigate to a different page after successful event creation (e.g., homepage)
-            router.push("/");
+            // Navigate to a My Events
+            router.push("/MyEvents");
         } catch (error) {
             console.log(error);
             setError("Failed to create event");
