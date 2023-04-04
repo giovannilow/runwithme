@@ -4,8 +4,8 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/router";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { database } from "./firebase";
-import { ref, set, push } from "firebase/database";
+import { firestore } from "./firebase";
+import { doc, setDoc, addDoc, collection } from "firebase/firestore";
 
 export default function CreateEvent() {
     const [startDate, setStartDate] = useState(null);
@@ -36,12 +36,11 @@ export default function CreateEvent() {
             setError("");
             setLoading(true);
 
-            const dbRef = ref(database, 'events/');
             // Save the event data to Firebase Realtime Database
-            await push(dbRef, eventData);
+            await addDoc(collection(firestore, "events"), eventData);
 
-            // Navigate to a different page after successful event creation (e.g., homepage)
-            router.push("/");
+            // Navigate to a different page after successful event creation
+            router.push("/MyEvents");
         } catch (error) {
             console.log(error);
             setError("Failed to create event");

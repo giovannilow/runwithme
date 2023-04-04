@@ -1,28 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { Box, Heading, SimpleGrid, VStack, Text } from '@chakra-ui/react';
-import { database } from './firebase';
-import { ref, onValue } from "firebase/database";
+import { firestore } from './firebase';
+import { collection, getDocs } from "firebase/firestore";
 
 const AllEvents = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchData = () => {
-      const eventsRef = ref(database, 'events/');
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(firestore, "events"));
+        const eventsArray = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        setEvents(eventsArray);
+        setLoading(false);
+      } catch (error) {
+        console.error('Error fetching events:', error);
+        setLoading(false);
+      }
 
-      onValue(eventsRef, (snapshot) => {
-        try {
-          console.log(snapshot.val());
-          const eventsData = snapshot.val();
-          const eventsArray = Object.entries(eventsData).map(([id, data]) => ({ id, ...data }));
-          setEvents(eventsArray);
-          setLoading(false);
-        } catch (error) {
-          console.error('Error fetching events:', error);
-          setLoading(false);
-        }
-      });
     };
 
     fetchData();
