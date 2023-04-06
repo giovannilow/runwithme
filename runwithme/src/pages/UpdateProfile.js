@@ -74,17 +74,20 @@ export default function UpdateProfile() {
             {error}
           </Alert>
         )}
+
         <form onSubmit={handleSubmit}>
-          <Avatar size="2xl" src={photoURL} />
-          <Input type="file" onChange={handlePhoto} />
-          <Button
-            disabled={loading || !photo}
-            variant="outline"
-            colorScheme="blue"
-            onClick={handleUpload}
-          >
-            Upload Profile Picture
-          </Button>
+          <Flex direction="column" alignItems="center" gap="2">
+            <Avatar size="2xl" src={photoURL} />
+            <Input type="file" onChange={handlePhoto} />
+            <Button
+              disabled={loading || !photo}
+              variant="outline"
+              colorScheme="blue"
+              onClick={handleUpload}
+            >
+              Upload Profile Picture
+            </Button>
+          </Flex>
           <FormControl isRequired defaultValue={currentUser.displayName}>
             <FormLabel>Name</FormLabel>
             <Input
