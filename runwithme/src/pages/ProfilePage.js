@@ -1,5 +1,11 @@
 import { Heading, Flex, Input, Button, Link } from "@chakra-ui/react";
-import { Alert, AlertIcon, FormControl, FormLabel } from "@chakra-ui/react";
+import {
+  Alert,
+  AlertIcon,
+  Avatar,
+  FormControl,
+  FormLabel,
+} from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useRouter } from "next/router";
@@ -27,7 +33,14 @@ export default function ProfilePage() {
       direction={"column"}
       justifyContent={"center"}
     >
-      <Flex direction="column" background="gray.100" p={12} rounded={6}>
+      <Flex
+        direction="column"
+        alignItems="center"
+        gap="2"
+        background="gray.100"
+        p={12}
+        rounded={6}
+      >
         <Heading mb={6}> Profile Page </Heading>
         {error && (
           <Alert status="error">
@@ -35,6 +48,7 @@ export default function ProfilePage() {
             {error}
           </Alert>
         )}
+        <Avatar size="2xl" src={currentUser.photoURL} />
         <strong>Name:</strong>
         {currentUser.displayName}
         <strong>Email:</strong>

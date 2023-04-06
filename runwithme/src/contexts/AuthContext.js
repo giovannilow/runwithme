@@ -10,9 +10,11 @@ import {
   updateEmail,
   updatePassword,
 } from "firebase/auth";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 const AuthContext = React.createContext();
 const auth = getAuth(app);
+const storage = getStorage();
 
 export function useAuth() {
   return useContext(AuthContext);
@@ -42,8 +44,14 @@ export function AuthProvider({ children }) {
     return updateProfile(auth.currentUser, { displayName: name });
   }
 
-  function setNewPhoto(photoLink) {
-    return updateProfile(auth.currentUser, { photoURL: photoLink });
+  async function uploadPhoto(file, currentUser, setLoading) {
+    const fileRef = ref(storage, "profilePics/" + currentUser.uid + ".png");
+    setLoading(true);
+    const snapshot = await uploadBytes(fileRef, file);
+    const photoURL = await getDownloadURL(fileRef);
+    updateProfile(currentUser, { photoURL });
+    setLoading(false);
+    alert("Uploaded file!");
   }
 
   function setNewEmail(email) {
@@ -72,7 +80,7 @@ export function AuthProvider({ children }) {
     setNewEmail,
     setNewPassword,
     setNewName,
-    setNewPhoto,
+    uploadPhoto,
   };
 
   return (

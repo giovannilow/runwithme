@@ -1,18 +1,37 @@
-import { Heading, Flex, Input, Button, Link } from "@chakra-ui/react";
+import { Heading, Flex, Input, Button, Link, Avatar } from "@chakra-ui/react";
 import { Alert, AlertIcon, FormControl, FormLabel } from "@chakra-ui/react";
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useRouter } from "next/router";
 
 export default function UpdateProfile() {
+  const router = useRouter();
   const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
-  const { currentUser, setNewPassword, setNewEmail, setNewName } = useAuth();
+  const { currentUser, setNewPassword, setNewEmail, setNewName, uploadPhoto } =
+    useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const [photo, setPhoto] = useState(null);
+  const [photoURL, setPhotoURL] = useState("https://bit.ly/broken-link");
+
+  useEffect(() => {
+    if (currentUser?.photoURL) {
+      setPhotoURL(currentUser.photoURL);
+    }
+  }, [currentUser]);
+
+  function handlePhoto(e) {
+    if (e.target.files[0]) {
+      setPhoto(e.target.files[0]);
+    }
+  }
+
+  function handleUpload() {
+    uploadPhoto(photo, currentUser, setLoading);
+  }
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -56,6 +75,16 @@ export default function UpdateProfile() {
           </Alert>
         )}
         <form onSubmit={handleSubmit}>
+          <Avatar size="2xl" src={photoURL} />
+          <Input type="file" onChange={handlePhoto} />
+          <Button
+            disabled={loading || !photo}
+            variant="outline"
+            colorScheme="blue"
+            onClick={handleUpload}
+          >
+            Upload Profile Picture
+          </Button>
           <FormControl isRequired defaultValue={currentUser.displayName}>
             <FormLabel>Name</FormLabel>
             <Input
