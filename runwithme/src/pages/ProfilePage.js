@@ -35,17 +35,15 @@ export default function ProfilePage() {
             {error}
           </Alert>
         )}
-        <strong>Email:</strong> 
-        {/* {currentUser.email} */}
-        <Button
-          colorScheme={"teal"}
-          href="/UpdateProfile"
-          w-100
-          text-center
-          mt={5}
-        >
-          Update Profile
-        </Button>
+        <strong>Name:</strong>
+        {currentUser.displayName}
+        <strong>Email:</strong>
+        {currentUser.email}
+        <Link href="/UpdateProfile">
+          <Button colorScheme={"teal"} w-100 text-center mt={5}>
+            Update Profile
+          </Button>
+        </Link>
       </Flex>
       <Button colorScheme={"red"} onClick={handleLogout} mt={2}>
         Log out

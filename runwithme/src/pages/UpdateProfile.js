@@ -5,10 +5,11 @@ import { useAuth } from "../contexts/AuthContext";
 import { useRouter } from "next/router";
 
 export default function UpdateProfile() {
+  const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
-  const { currentUser, setNewPassword, setNewEmail } = useAuth();
+  const { currentUser, setNewPassword, setNewEmail, setNewName } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -24,6 +25,9 @@ export default function UpdateProfile() {
     setError("");
     if (emailRef.current.value !== currentUser.email) {
       promises.push(setNewEmail(emailRef.current.value));
+    }
+    if (nameRef.current.value !== currentUser.displayName) {
+      promises.push(setNewName(nameRef.current.value));
     }
     if (passwordRef.current.value) {
       promises.push(setNewPassword(passwordRef.current.value));
@@ -52,6 +56,17 @@ export default function UpdateProfile() {
           </Alert>
         )}
         <form onSubmit={handleSubmit}>
+          <FormControl isRequired defaultValue={currentUser.displayName}>
+            <FormLabel>Name</FormLabel>
+            <Input
+              id="name"
+              placeholder="enter full name"
+              ref={nameRef}
+              variant="filled"
+              mb={3}
+              // onChange={(event) => setEmail(event.currentTarget.value)}
+            />
+          </FormControl>
           <FormControl isRequired defaultValue={currentUser.email}>
             <FormLabel>Email</FormLabel>
             <Input

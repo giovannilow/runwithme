@@ -5,10 +5,11 @@ import { useAuth } from "../contexts/AuthContext";
 import { useRouter } from "next/router";
 
 export default function SignUp() {
+  const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const passwordConfirmRef = useRef();
-  const { signup } = useAuth();
+  const { signup, setNewName } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -28,6 +29,7 @@ export default function SignUp() {
       setError("");
       setLoading(true);
       await signup(emailRef.current.value, passwordRef.current.value);
+      await setNewName(nameRef.current.value);
       router.push("/");
     } catch {
       setError("Failed to create an account");
@@ -63,6 +65,16 @@ export default function SignUp() {
           )}
           <form onSubmit={handleSubmit}>
             <FormControl isRequired>
+              <FormLabel>Name</FormLabel>
+              <Input
+                id="displayName"
+                placeholder="enter full name"
+                ref={nameRef}
+                variant="filled"
+                mb={3}
+              />
+            </FormControl>
+            <FormControl isRequired>
               <FormLabel>Email</FormLabel>
               <Input
                 id="email"
@@ -71,7 +83,6 @@ export default function SignUp() {
                 variant="filled"
                 mb={3}
                 type="email"
-                // onChange={(event) => setEmail(event.currentTarget.value)}
               />
             </FormControl>
             <FormControl isRequired>
@@ -84,7 +95,6 @@ export default function SignUp() {
                 mb={6}
                 type="password"
                 width="300px"
-                // onChange={(event) => setPassword(event.currentTarget.value)}
               />
             </FormControl>
             <FormControl isRequired>
