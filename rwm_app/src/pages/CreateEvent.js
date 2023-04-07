@@ -40,7 +40,7 @@ export default function CreateEvent() {
             await addDoc(collection(firestore, "events"), eventData);
 
             // Navigate to a different page after successful event creation
-            router.push("/MyEvents");
+            router.push("/Events");
         } catch (error) {
             console.log(error);
             setError("Failed to create event");

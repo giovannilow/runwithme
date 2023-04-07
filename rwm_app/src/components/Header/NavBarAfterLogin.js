@@ -23,8 +23,8 @@ import { useRouter } from "next/router";
 
 const Links = [
   {
-    name: "My Events",
-    url: "/MyEvents",
+    name: "Events",
+    url: "/Events",
   },
 ];
 

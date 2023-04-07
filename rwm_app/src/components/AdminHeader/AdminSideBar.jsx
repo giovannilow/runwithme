@@ -26,7 +26,7 @@ const AdminSideBar = ({ children }) => {
               <RxPerson size={20} />
             </div>
           </Link>
-          <Link href="/Events">
+          <Link href="/EventsAdmin">
             <div className="bg-gray-100 hover:bg-gray-200 cursor-pointer my-4 p-3 rounded-lg inline-block">
               <MdEvent size={20} />
             </div>

@@ -32,7 +32,7 @@ const AllEvents = () => {
   return (
     <Box>
       <VStack spacing={4} align="center" paddingTop="20px">
-        <Heading>My Events</Heading>
+        <Heading>Events</Heading>
         <SimpleGrid columns={[1, null, 3]} spacing="40px" width="100%" paddingBottom="20px">
           {events.map((event) => (
             <Box key={event.id} borderWidth="1px" borderRadius="lg" overflow="hidden" p="4">
