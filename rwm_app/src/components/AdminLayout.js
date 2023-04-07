@@ -18,7 +18,7 @@ export default function Layout({ children }) {
         </Box>
       </Box>
       <main>{children}</main>
-      //insert footer after having one
+      insert footer
     </>
   );
 }

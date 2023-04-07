@@ -19,8 +19,8 @@ export default function ProfilePage() {
     setError("");
 
     try {
-      await logout();
       router.push("/Login");
+      await logout();
     } catch {
       setError("Failed to log out");
     }
@@ -48,16 +48,23 @@ export default function ProfilePage() {
             {error}
           </Alert>
         )}
+
         <Avatar size="2xl" src={currentUser.photoURL} />
         <strong>Name:</strong>
         {currentUser.displayName}
         <strong>Email:</strong>
         {currentUser.email}
-        <Link href="/UpdateProfile">
-          <Button colorScheme={"teal"} w-100 text-center mt={5}>
-            Update Profile
-          </Button>
-        </Link>
+        <Button
+          colorScheme={"teal"}
+          w-100
+          text-center
+          mt={5}
+          onClick={() => {
+            router.push("/UpdateProfile");
+          }}
+        >
+          Update Profile
+        </Button>
       </Flex>
       <Button colorScheme={"red"} onClick={handleLogout} mt={2}>
         Log out

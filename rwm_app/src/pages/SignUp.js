@@ -83,6 +83,7 @@ export default function SignUp() {
                 variant="filled"
                 mb={3}
                 type="email"
+                onChange={(event) => setEmail(event.currentTarget.value)}
               />
             </FormControl>
             <FormControl isRequired>
@@ -95,6 +96,7 @@ export default function SignUp() {
                 mb={6}
                 type="password"
                 width="300px"
+                onChange={(event) => setPassword(event.currentTarget.value)}
               />
             </FormControl>
             <FormControl isRequired>
