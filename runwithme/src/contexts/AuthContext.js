@@ -6,12 +6,18 @@ import {
   signInWithEmailAndPassword,
   signOut,
   sendPasswordResetEmail,
+  updateProfile,
   updateEmail,
   updatePassword,
 } from "firebase/auth";
+import { getDocs, getFirestore } from "firebase/firestore";
+import { collection, doc, setDoc } from "firebase/firestore";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 const AuthContext = React.createContext();
 const auth = getAuth(app);
+const storage = getStorage();
+const db = getFirestore(app);
 
 export function useAuth() {
   return useContext(AuthContext);
@@ -20,13 +26,47 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
+  const [isAdmin, setisAdmin] = useState(false);
 
   function signup(email, password) {
     return createUserWithEmailAndPassword(auth, email, password);
   }
 
-  function login(email, password) {
-    return signInWithEmailAndPassword(auth, email, password);
+  // async function login(email, password) {
+  //   const signIn = signInWithEmailAndPassword(auth, email, password);
+  //   const querySnapshot = await getDocs(collection(db, "admins"));
+  //   querySnapshot.docs.forEach((doc) => {
+  //     signIn.then((data) => {
+  //       console.log(data.user.uid);
+  //       console.log(doc.id);
+  //       if (data.user.uid === doc.id) {
+  //         setisAdmin(true);
+  //         console.log(isAdmin);
+  //       }
+  //     });
+  //   });
+  //   return isAdmin;
+  // }
+
+  async function login(email, password) {
+    const signIn = signInWithEmailAndPassword(auth, email, password);
+    const querySnapshot = await getDocs(collection(db, "admins"));
+    const promises = querySnapshot.docs.map((doc) => {
+      return signIn.then((data) => {
+        if (data.user.uid === doc.id) {
+          return true;
+        }
+        return false;
+      });
+    });
+    const results = await Promise.all(promises);
+    const isAdmin = results.includes(true);
+    setisAdmin(isAdmin);
+    return isAdmin;
+  }
+
+  function checkIsAdmin() {
+    return isAdmin;
   }
 
   function logout() {
@@ -35,6 +75,20 @@ export function AuthProvider({ children }) {
 
   function resetPassword(email) {
     return sendPasswordResetEmail(auth, email);
+  }
+
+  function setNewName(name) {
+    return updateProfile(auth.currentUser, { displayName: name });
+  }
+
+  async function uploadPhoto(file, currentUser, setLoading) {
+    const fileRef = ref(storage, "profilePics/" + currentUser.uid + ".png");
+    setLoading(true);
+    const snapshot = await uploadBytes(fileRef, file);
+    const photoURL = await getDownloadURL(fileRef);
+    updateProfile(currentUser, { photoURL });
+    setLoading(false);
+    alert("Uploaded file!");
   }
 
   function setNewEmail(email) {
@@ -62,6 +116,11 @@ export function AuthProvider({ children }) {
     resetPassword,
     setNewEmail,
     setNewPassword,
+    setNewName,
+    uploadPhoto,
+    isAdmin,
+    setisAdmin,
+    setCurrentUser,
   };
 
   return (

@@ -1,5 +1,6 @@
 import { Heading, Flex, Input, Button, Link, Box } from "@chakra-ui/react";
 import { Alert, AlertIcon, FormControl, FormLabel } from "@chakra-ui/react";
+import { Select } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useRouter } from "next/router";
@@ -40,7 +41,7 @@ export default function SignUp() {
     <Box
       style={{
         backgroundImage: `url(${image})`,
-        height: "650px",
+        height: "800px",
         backgroundSize: "cover",
         position: "relative",
         backgroundPosition: "center",
@@ -97,6 +98,14 @@ export default function SignUp() {
                 type="password"
               />
             </FormControl>
+            {/* <Select
+              placeholder="Select option"
+              mb={6}
+              onChange={(e) => setRole(e.target.value)}
+            >
+              <option value="admin">Admin</option>
+              <option value="user">User</option>
+            </Select> */}
             <Button disabled={loading} colorScheme="teal" type="submit">
               Sign Up
             </Button>
