@@ -266,9 +266,9 @@ const NAV_ITEMS = [
     label: "Product",
     children: [
       {
-        label: "Features",
-        subLabel: "See what you can do with us",
-        href: "#",
+        label: "Calendar",
+        subLabel: "See your Calendar",
+        href: "/calendarPage",
       },
       {
         label: "Discover",
