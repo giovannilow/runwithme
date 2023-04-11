@@ -53,7 +53,7 @@ const AdminTopBar = ({ children }) => {
           <Link href="/Events">
             <div
               className={`ml-2 p-2 rounded-lg ${
-                router.pathname === "/Events"
+                router.pathname === "/EventsAdmin"
                   ? "bg-purple-800 text-white"
                   : "bg-gray-100 text-gray-800 hover:bg-gray-200 cursor-pointer"
               }`}
