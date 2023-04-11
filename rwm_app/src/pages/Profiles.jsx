@@ -2,8 +2,13 @@ import React from "react";
 import { BsPersonFill, BsThreeDotsVertical } from "react-icons/bs";
 import { mockDataProfiles } from "@/data/mockdata";
 import { WrapItem, Avatar } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { getAuth } from "firebase/auth";
 
 const Profiles = () => {
+  const [loading, setLoading] = useState(true);
+  const [users, setUsers] = useState([]);
+
   return (
     <div className="bg-gray-100 min-h-screen">
       <div className="flex justify-between px-4 pt-4">

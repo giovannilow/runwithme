@@ -1,6 +1,42 @@
 import React from "react";
+import { useState, useEffect } from "react";
+import {
+  getDocs,
+  getFirestore,
+  collection,
+  doc,
+  setDoc,
+  firestore,
+} from "firebase/firestore";
+import app from "@/pages/firebase";
+import { BiRun } from "react-icons/bi";
 
 const TopData = () => {
+  const db = getFirestore(app);
+  const [events, setEvents] = useState([]);
+  const [totalEvents, setTotalEvents] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "events"));
+        const eventsArray = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setEvents(eventsArray);
+        setLoading(false);
+        setTotalEvents(eventsArray.length); // Set the length of eventsArray as totalEvents
+      } catch (error) {
+        console.error("Error fetching events:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <div className="grid lg:grid-cols-3 gap-6 p-4 justify-items-center w-full">
       <div className="bg-white flex justify-between w-full border p-4 rounded-lg">
@@ -14,11 +50,13 @@ const TopData = () => {
       </div>
       <div className="bg-white flex justify-between w-full border p-4 rounded-lg">
         <div className="flex flex-col w-full pb-4">
-          <p className="text-2xl font-bold">25</p>
+          <p className="text-2xl font-bold">{totalEvents}</p>
           <p className="text-gray-600">Events</p>
         </div>
         <p className="bg-green-200 flex justify-center items-center p-2 rounded-lg w-4/12">
-          <span className="text-green-700 text-lg font-semibold">+ 11%</span>
+          <span className="text-black-700 font-semibold">
+            <BiRun className="h-11 w-11" />
+          </span>
         </p>
       </div>
       <div className="bg-white flex justify-between w-full border p-4 rounded-lg">
