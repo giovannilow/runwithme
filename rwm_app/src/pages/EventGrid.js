@@ -21,6 +21,7 @@ const EventGrid = () => {
             <Th>Details</Th>
             <Th>Location</Th>
             <Th>Distance</Th>
+            <Th>Title</Th>
           </Tr>
         </Thead>
         <Tbody>
@@ -34,6 +35,7 @@ const EventGrid = () => {
               <Td>{event.Details}</Td>
               <Td>{event.Location}</Td>
               <Td>{event.Distance}</Td>
+              <Td>{event.title}</Td>
               <Td
                 style={{
                   display: "flex",

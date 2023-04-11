@@ -7,7 +7,7 @@ import { useRouter } from "next/router";
 export default function Login() {
   const emailRef = useRef();
   const passwordRef = useRef();
-  const { login } = useAuth();
+  const { login, currentUser } = useAuth();
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -22,12 +22,18 @@ export default function Login() {
     try {
       setError("");
       setLoading(true);
-      await login(emailRef.current.value, passwordRef.current.value);
-      router.push("/");
+      const checkAdmin = await login(
+        emailRef.current.value,
+        passwordRef.current.value
+      );
+      if (checkAdmin) {
+        router.push("/Admin");
+      } else {
+        router.push("/");
+      }
     } catch {
       setError("Failed to sign in");
     }
-
     setLoading(false);
   }
 

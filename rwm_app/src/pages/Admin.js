@@ -1,5 +1,5 @@
 import AdminHeader from "@/components/AdminHeader/AdminHeader";
-import AdminSideBar from "@/components/AdminHeader/AdminSideBar";
+import AdminSideBar from "@/components/AdminHeader/AdminTopBar";
 import Head from "next/head";
 import Image from "next/image";
 import TopData from "@/components/AdminHeader/TopData";
