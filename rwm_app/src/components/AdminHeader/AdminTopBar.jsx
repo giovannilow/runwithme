@@ -50,7 +50,7 @@ const AdminTopBar = ({ children }) => {
               <h2 className="text: font-semibold">Profiles</h2>
             </div>
           </Link>
-          <Link href="/Events">
+          <Link href="/EventsAdmin">
             <div
               className={`ml-2 p-2 rounded-lg ${
                 router.pathname === "/EventsAdmin"
