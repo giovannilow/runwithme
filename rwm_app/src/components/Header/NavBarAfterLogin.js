@@ -1,12 +1,13 @@
 import { useState } from "react";
 import {
   Box,
+  Button,
   Flex,
   Avatar,
   HStack,
   Link,
   IconButton,
-  Button,
+  Image,
   Menu,
   MenuButton,
   MenuList,
@@ -82,7 +83,10 @@ export default function withAction() {
             onClick={isOpen ? onClose : onOpen}
           />
           <HStack spacing={8} alignItems={"center"}>
-            <Box onClick={() => router.push("/HomeAftLogin")}>Logo</Box>
+            <Box onClick={() => router.push("/HomeAftLogin")}>
+              <IconButton icon={<Image src="/runwithme.png" w="40" />} />
+            </Box>
+
             <HStack
               as={"nav"}
               spacing={4}
