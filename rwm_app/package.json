@@ -44,6 +44,7 @@
     "react-pro-sidebar": "^1.0.0",
     "react-router-dom": "^6.9.0",
     "react-slick": "^0.29.0",
+    "sweetalert2": "^11.7.3",
     "yup": "^1.0.2"
   },
   "devDependencies": {
