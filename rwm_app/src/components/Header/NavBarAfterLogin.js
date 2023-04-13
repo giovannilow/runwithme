@@ -26,7 +26,10 @@ const Links = [
   {
     name: "Events",
     url: "/Events",
-  },
+  }, {
+    name: "Calendar",
+    url: "/calendarPage",
+  }
 ];
 
 const NavLink = ({ children }) => (
