@@ -34,7 +34,7 @@ export default function CreateEvent() {
 
     const eventData = {
       title: titleRef.current.value,
-      date: startDate?.toISOString(),
+      date: startDate,
       startLocation: startLocationRef.current.value,
       distance: distanceRef.current.value,
       pace: paceRef.current.value,
@@ -105,6 +105,7 @@ export default function CreateEvent() {
                 <DatePicker
                   id="date"
                   selected={startDate}
+                  //var myTimestamp = firestore.Timestamp.fromDate(new Date());
                   onChange={(date) => setStartDate(date)}
                   showTimeSelect
                   timeFormat="HH:mm"
