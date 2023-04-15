@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import {
   getDocs,
   getFirestore,
@@ -10,39 +11,62 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
+import app from "@/pages/firebase";
 import { BsPersonFill, BsThreeDotsVertical } from "react-icons/bs";
 import { mockDataProfiles } from "@/data/mockdata";
 import { WrapItem, Avatar } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 import { getAuth, listUsers } from "firebase/auth";
-import app from "@/pages/firebase";
-import { initializeApp } from "firebase-admin/app";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { MdEvent, MdEdit, MdDelete } from "react-icons/md";
+import Swal from "sweetalert2";
 
 const Profiles = () => {
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
-  const app = initializeApp();
-  const auth = getAuth(app);
+  const [totalUsers, setTotalUvents] = useState();
+  const db = getFirestore(app);
 
-  const listAllUsers = (nextPageToken) => {
-    // List batch of users, 1000 at a time.
-    getAuth()
-      .listUsers(1000, nextPageToken)
-      .then((listUsersResult) => {
-        listUsersResult.users.forEach((userRecord) => {
-          console.log("user", userRecord.toJSON());
-        });
-        if (listUsersResult.pageToken) {
-          // List next batch of users.
-          listAllUsers(listUsersResult.pageToken);
-        }
-      })
-      .catch((error) => {
-        console.log("Error listing users:", error);
-      });
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "users"));
+        const usersArray = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setUsers(usersArray);
+        setLoading(false);
+        setTotalUvents(usersArray.length); // Set the length of eventsArray as totalEvents
+      } catch (error) {
+        console.error("Error fetching users:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const deleteProfile = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.value) {
+        deleteApi(id);
+      }
+    });
   };
-  // Start listing users from the beginning, 1000 at a time.
-  listAllUsers();
+
+  const deleteApi = async (id, fetchData) => {
+    const usersDoc = doc(db, "users", id);
+    await deleteDoc(usersDoc);
+    Swal.fire("Deleted!", "User profile has been deleted.", "success");
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen">
@@ -52,13 +76,13 @@ const Profiles = () => {
       <div className="p-4">
         <div className="w-full m-auto p-4 border rounded-lg bg-white overflow-y-auto">
           <div className="my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer">
-            <span>Name / Company</span>
+            <span>Name</span>
             <span className="sm:text-left text-right">Email</span>
-            <span className="hidden md:grid">Phone</span>
-            <span className="hidden sm:grid">Address</span>
+            <span className="hidden md:grid">Password</span>
+            {/* <span className="hidden sm:grid">Address</span> */}
           </div>
           <ul>
-            {mockDataProfiles.map((profiles) => (
+            {users.map((profiles) => (
               <li
                 key={profiles.id}
                 className="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 grid md:grid-cols-4 sm:grid-cols-3 grid-cols-2 items-center justify-between cursor-pointer"
@@ -67,15 +91,17 @@ const Profiles = () => {
                   <div className="bg-purple-100 p-3 rounded-lg">
                     <BsPersonFill className="text-purple-800" />
                   </div>
-                  <p className="pl-4">{profiles.name}</p>
+                  <p className="pl-4">{profiles.userName}</p>
                 </div>
                 <p className="text-gray-600 sm:text-left text-right">
-                  {profiles.email}
+                  {profiles.userEmail}
                 </p>
-                <p className="hidden md:flex">{profiles.phone}</p>
+                <p className="hidden md:flex">{profiles.userPassword}</p>
                 <div className="sm:flex hidden justify-between items-center">
-                  <p>{profiles.address}</p>
-                  <BsThreeDotsVertical />
+                  <MdDelete
+                    className="text-gray-500 hover:text-red-500 cursor-pointer text-2xl mr-10"
+                    onClick={() => deleteProfile(profiles.id)}
+                  />
                 </div>
               </li>
             ))}
