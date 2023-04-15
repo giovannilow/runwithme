@@ -99,7 +99,7 @@ const Events = () => {
                     <p className="text-gray-800 font-bold whitespace-nowrap">
                       {data.title}
                     </p>
-                    <p className="text-gray-800 text-sm">{data.date}</p>
+                    {/* <p className="text-gray-800 text-sm">{data.date}</p> */}
                   </div>
                 </div>
                 <p className="text-gray-600 sm:text-left text-right">
@@ -131,10 +131,10 @@ const Events = () => {
                         data.recurrenceFrequency}
                   </p>
                   <div className="flex items-center ml-1">
-                    <MdEdit className="text-gray-500 hover:text-blue-500 cursor-pointer text-2xl" />
-                    <div className="w-4"></div>
+                    {/* <MdEdit className="text-gray-500 hover:text-blue-500 cursor-pointer text-2xl" />
+                    <div className="w-4"></div> */}
                     <MdDelete
-                      className="text-gray-500 hover:text-red-500 cursor-pointer text-2xl"
+                      className="text-gray-500 hover:text-red-500 cursor-pointer text-2xl mr-10"
                       onClick={() => deleteEvent(data.id)}
                     />
                   </div>

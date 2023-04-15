@@ -43,7 +43,7 @@ const RecentRuns = () => {
       <ul>
         {events.map((data) => (
           <li
-            key={events.recurrence}
+            // key={events.recurrence}
             className="bg-gray-50 hover:bg-gray-100 rounded-lg my-3 p-2 flex items-center cursor-pointer"
           >
             <div className="bg-purple-100 rounded-lg p-3">
@@ -51,7 +51,7 @@ const RecentRuns = () => {
             </div>
             <div className="pl-4">
               <p className="text-gray-800 font-bold">{data.title}</p>
-              <p className="text-gray-400 text-sm">{data.date}</p>
+              {/* <p className="text-gray-400 text-sm">{data.date}</p> */}
             </div>
             <p className="lg:flex md:hidden absolute right-6 text-sm font-semibold">
               {data.distance} KM

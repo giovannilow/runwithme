@@ -1,13 +1,48 @@
 import React from "react";
+import {
+  getDocs,
+  getFirestore,
+  collection,
+  doc,
+  setDoc,
+  firestore,
+  addDoc,
+  updateDoc,
+  deleteDoc,
+} from "firebase/firestore";
 import { BsPersonFill, BsThreeDotsVertical } from "react-icons/bs";
 import { mockDataProfiles } from "@/data/mockdata";
 import { WrapItem, Avatar } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { getAuth } from "firebase/auth";
+import { getAuth, listUsers } from "firebase/auth";
+import app from "@/pages/firebase";
+import { initializeApp } from "firebase-admin/app";
 
 const Profiles = () => {
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
+  const app = initializeApp();
+  const auth = getAuth(app);
+
+  const listAllUsers = (nextPageToken) => {
+    // List batch of users, 1000 at a time.
+    getAuth()
+      .listUsers(1000, nextPageToken)
+      .then((listUsersResult) => {
+        listUsersResult.users.forEach((userRecord) => {
+          console.log("user", userRecord.toJSON());
+        });
+        if (listUsersResult.pageToken) {
+          // List next batch of users.
+          listAllUsers(listUsersResult.pageToken);
+        }
+      })
+      .catch((error) => {
+        console.log("Error listing users:", error);
+      });
+  };
+  // Start listing users from the beginning, 1000 at a time.
+  listAllUsers();
 
   return (
     <div className="bg-gray-100 min-h-screen">
