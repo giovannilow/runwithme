@@ -34,7 +34,7 @@ const Events = () => {
                     <p className="text-gray-800 font-bold whitespace-nowrap">
                       {events.title}
                     </p>
-                    <p className="text-gray-800 text-sm">{events.Date}</p>
+                    {/* <p className="text-gray-800 text-sm">{events.Date}</p> */}
                   </div>
                 </div>
                 <p className="text-gray-600 sm:text-left text-right">
