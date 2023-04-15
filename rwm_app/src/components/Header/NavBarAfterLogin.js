@@ -84,7 +84,7 @@ export default function NavBarAfterLogin() {
           />
           <HStack spacing={8} alignItems={"center"}>
             <Box onClick={() => router.push("/HomeAftLogin")}>
-              <IconButton icon={<Image src="/runwithme.png" w="40" />} />
+              <IconButton icon={<Image src="/RunWithMe.png" w="40" />} />
             </Box>
 
             <HStack
