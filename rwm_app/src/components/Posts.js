@@ -23,7 +23,7 @@ import {
   MenuItem,
 } from "@chakra-ui/react";
 import { BiLike } from "react-icons/bi";
-import { BsThreeDotsVertical } from "react-icons/bs";
+import { BsTrash } from "react-icons/bs";
 import "firebase/firestore";
 import { useRouter } from "next/router";
 
@@ -109,19 +109,13 @@ function Post({
             </Box>
           </Flex>
           {createdBy == currentUser?.displayName && (
-            <Menu mr="auto">
-              <MenuButton>
-                <IconButton
-                  variant="ghost"
-                  colorScheme="gray"
-                  aria-label="See menu"
-                  icon={<BsThreeDotsVertical />}
-                />
-              </MenuButton>
-              <MenuList>
-                <MenuItem onClick={handleDelete}>Delete Post</MenuItem>
-              </MenuList>
-            </Menu>
+            <IconButton
+              variant="ghost"
+              colorScheme="gray"
+              aria-label="See menu"
+              icon={<BsTrash />}
+              onClick={handleDelete}
+            />
           )}
         </Flex>
       </CardHeader>

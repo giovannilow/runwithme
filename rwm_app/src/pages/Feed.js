@@ -32,7 +32,11 @@ function Feed({ posts }) {
     >
       <div className="feed__container">
         <Heading mb={6}> Post Feed </Heading>
-        <Button onClick={() => router.push("/NewPost")} mb={5}>
+        <Button
+          onClick={() => router.push("/NewPost")}
+          mb={5}
+          colorScheme="teal"
+        >
           Add a Post
         </Button>
         <Posts />
