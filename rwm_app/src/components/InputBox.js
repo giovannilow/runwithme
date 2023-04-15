@@ -4,7 +4,13 @@ import { v4 as uuidv4 } from "uuid";
 import { FcStackOfPhotos } from "react-icons/fc";
 import { firestore, storage } from "@/pages/firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-import { collection, doc, setDoc, serverTimestamp } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  setDoc,
+  serverTimestamp,
+  Timestamp,
+} from "firebase/firestore";
 import { useRouter } from "next/router";
 import {
   Card,
@@ -33,7 +39,7 @@ function InputBox() {
       const updatedwallPosts = [...wallPosts, post];
       setWallPosts(
         updatedwallPosts.sort((a, b) => {
-          return new Date(b.timestamp) - new Date(a.timestamp);
+          return b.timestamp - a.timestamp;
         })
       );
     }
@@ -43,17 +49,20 @@ function InputBox() {
     e.preventDefault();
 
     if (!inputRef.current.value) return;
+    const timestamp = new Date();
+    const dateString = timestamp.toString();
 
     setIsLoading(true);
     const postUuid = uuidv4();
     const post = {
       id: postUuid,
       message: inputRef.current.value,
-      timestamp: serverTimestamp(),
+      timestamp: dateString,
       createdBy: currentUser.displayName,
       userAvatar: currentUser.photoURL,
       imageUrl: "",
       likes: 0,
+      likedBy: [],
     };
 
     function dataURLtoBlob(dataURL) {

@@ -55,7 +55,10 @@ export async function getServerSideProps() {
     const data = doc.data();
     return {
       ...data,
-      timestamp: data.timestamp.toDate().toISOString(),
+      timestamp: new Date(data.timestamp).toLocaleString("en-SG", {
+        timeZone: "Asia/Singapore",
+        hour12: false,
+      }),
     };
   });
 
@@ -70,7 +73,7 @@ export async function getServerSideProps() {
   return {
     props: {
       posts: docs.sort((a, b) => {
-        return new Date(b.timestamp) - new Date(a.timestamp);
+        return b.timestamp - a.timestamp;
       }),
     },
   };

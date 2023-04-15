@@ -28,7 +28,6 @@ export function AuthProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [isAdmin, setisAdmin] = useState(false);
   // create loading state and share to other components.
-  // loading state will be used to show / hide loading indicator.
   const [isLoading, setIsLoading] = useState(false);
 
   const [hasLoaded, setHasLoaded] = useState(false);
