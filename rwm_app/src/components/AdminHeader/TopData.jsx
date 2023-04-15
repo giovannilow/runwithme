@@ -10,10 +10,13 @@ import {
 } from "firebase/firestore";
 import app from "@/pages/firebase";
 import { BiRun } from "react-icons/bi";
+import { HiUsers } from "react-icons/hi";
 
 const TopData = () => {
   const db = getFirestore(app);
   const [events, setEvents] = useState([]);
+  const [users, setUsers] = useState([]);
+  const [totalUsers, setTotalUsers] = useState();
   const [totalEvents, setTotalEvents] = useState();
   const [loading, setLoading] = useState(true);
 
@@ -61,11 +64,13 @@ const TopData = () => {
       </div>
       <div className="bg-white flex justify-between w-full border p-4 rounded-lg">
         <div className="flex flex-col w-full pb-4">
-          <p className="text-2xl font-bold">100</p>
+          <p className="text-2xl font-bold">20</p>
           <p className="text-gray-600">Users</p>
         </div>
         <p className="bg-green-200 flex justify-center items-center p-2 rounded-lg w-4/12">
-          <span className="text-green-700 text-lg font-semibold">+ 17%</span>
+          <span className="text-black-700 font-semibold">
+            <HiUsers className="h-11 w-11" />
+          </span>
         </p>
       </div>
     </div>

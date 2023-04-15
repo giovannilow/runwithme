@@ -32,6 +32,7 @@
     "eslint": "8.34.0",
     "eslint-config-next": "13.1.6",
     "firebase": "^9.18.0",
+    "firebase-admin": "^11.6.0",
     "formik": "^2.2.9",
     "framer-motion": "^9.0.4",
     "next": "^13.3.0",
@@ -45,6 +46,7 @@
     "react-pro-sidebar": "^1.0.0",
     "react-router-dom": "^6.9.0",
     "react-slick": "^0.29.0",
+    "sweetalert2": "^11.7.3",
     "yup": "^1.0.2"
   },
   "devDependencies": {
