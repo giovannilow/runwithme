@@ -10,6 +10,8 @@ import {
 } from "firebase/firestore";
 import {
   Box,
+  Center,
+  Avatar,
   IconButton,
   useBreakpointValue,
   Button,
@@ -79,21 +81,18 @@ export default function HomeAftLogin() {
   }
 
   return (
-    <>
-      <div style={{ padding: "15px" }}>
-        <Badge colorScheme="blue">
-          <p
-            style={{
-              fontFamily: "georgia,garamond,serif",
-              fontSize: "22px",
-              fontStyle: "italic",
-              fontWeight: "bolder",
-            }}
-          >
-            Upcoming runs:{" "}
-          </p>
-        </Badge>
-      </div>
+    <div
+      style={
+        {
+          //backgroundImage:
+          // 'url("https://images.unsplash.com/photo-1547483238-f400e65ccd56?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80")',
+          // backgroundPosition: "center",
+          // backgroundsize: "cover",
+          // backgroudColour: "red",
+        }
+      }
+    >
+      <div style={{ padding: "15px" }}></div>
 
       <div
         style={{
@@ -105,8 +104,37 @@ export default function HomeAftLogin() {
         {events.length > 0 && (
           <div
             className="carousel"
-            style={{ width: "80%", boxShadow: "5px 10px 5px 10px #888888" }}
+            style={{
+              width: "80%",
+              boxShadow: "5px 5px 10px 5px #888888",
+              marginBottom: "8px",
+            }}
           >
+            {/* <Badge style={{ paddingTop: "10px" }}>
+              <p
+                style={{
+                  fontFamily: "georgia,garamond,serif",
+                  fontSize: "22px",
+                  fontStyle: "italic",
+                  fontWeight: "bolder",
+                  paddingTop: "10px",
+                }}
+              >
+                Upcoming runs:{" "}
+              </p>
+            </Badge> */}
+            <p
+              style={{
+                fontFamily: "georgia,garamond,serif",
+                fontSize: "22px",
+                fontStyle: "italic",
+                fontWeight: "bolder",
+                paddingTop: "10px",
+                marginLeft: "10px",
+              }}
+            >
+              Upcoming runs:
+            </p>
             <Carousel
               swipeable={false}
               draggable={false}
@@ -127,9 +155,91 @@ export default function HomeAftLogin() {
               width="100%"
             >
               {events.map((event) => (
-                <div
+                <Center py={6}>
+                  <Box
+                    maxW={"445px"}
+                    w={"full"}
+                    bg={useColorModeValue("white", "gray.900")}
+                    boxShadow={"2xl"}
+                    rounded={"md"}
+                    margin="15px"
+                    p={6}
+                    overflow={"hidden"}
+                  >
+                    <Box
+                      h={"210px"}
+                      bg={"gray.100"}
+                      mt={-6}
+                      mx={-6}
+                      mb={6}
+                      pos={"relative"}
+                    >
+                      <Image
+                        src={
+                          "https://images.unsplash.com/photo-1548345680-f5475ea5df84?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1773&q=80"
+                        }
+                        alt="LocationImage"
+                        layout={"fill"}
+                      />
+                    </Box>
+                    <Stack>
+                      <Heading
+                        color={useColorModeValue("gray.700", "white")}
+                        fontSize={"2xl"}
+                        fontFamily={"body"}
+                      >
+                        <br />
+                        {event.title}
+                      </Heading>
+                      <Text color={"gray.700"}>
+                        Date: {event.date.toDate().toLocaleString()}
+                      </Text>
+                      <Text color={"gray.700"}>
+                        Start Location: {event.startLocation}
+                      </Text>
+
+                      <Text>Distance: {event.distance} km</Text>
+                      <Text>Pace: {event.pace} min/km</Text>
+                      <Text>Type: {event.recurrence}</Text>
+
+                      {event.recurrence === "recurrent" ? (
+                        <Text>
+                          Recurrence Frequency: {event.recurrenceFrequency}
+                        </Text>
+                      ) : (
+                        <Text>
+                          <br />{" "}
+                        </Text>
+                      )}
+                    </Stack>
+                    <Stack
+                      mt={6}
+                      direction={"row"}
+                      spacing={4}
+                      align={"center"}
+                    >
+                      <Avatar
+                        src={
+                          "https://avatars0.githubusercontent.com/u/1164541?v=4"
+                        }
+                        alt={"Author"}
+                      />
+                      <Stack direction={"column"} spacing={0} fontSize={"sm"}>
+                        <Text fontWeight={600}></Text>
+                        <Text color={"gray.500"}></Text>
+                        <Button> Join Run </Button>
+                      </Stack>
+                    </Stack>
+                  </Box>
+                </Center>
+
+                /* <div
                   key={event.id}
-                  style={{ padding: "20px", borderRight: "2px solid black" }}
+                  style={{
+                    padding: "25px",
+                    borderRight: "2px solid black",
+                    backgroundColor: "#D2E5EE",
+                  }}
                 >
                   <img
                     src="https://images.unsplash.com/photo-1548345680-f5475ea5df84?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1773&q=80"
@@ -152,13 +262,13 @@ export default function HomeAftLogin() {
                     <Text>
                       <br />{" "}
                     </Text>
-                  )}
-                </div>
+                  )} */
+                // </div>
               ))}
             </Carousel>
           </div>
         )}
       </div>
-    </>
+    </div>
   );
 }

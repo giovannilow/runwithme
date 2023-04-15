@@ -27,6 +27,7 @@ const Links = [
     name: "Events",
     url: "/Events",
   },
+  { name: "About", url: "/About" },
 ];
 
 const NavLink = ({ children }) => (
