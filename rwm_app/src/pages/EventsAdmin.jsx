@@ -99,7 +99,9 @@ const Events = () => {
                     <p className="text-gray-800 font-bold whitespace-nowrap">
                       {data.title}
                     </p>
-                    {/* <p className="text-gray-800 text-sm">{events.Date}</p> */}
+                    <p className="text-gray-800 text-sm">
+                      {new Date(data.date.seconds * 1000).toLocaleString()}
+                    </p>
                   </div>
                 </div>
                 <p className="text-gray-600 sm:text-left text-right">
