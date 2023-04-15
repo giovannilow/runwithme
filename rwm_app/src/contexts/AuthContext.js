@@ -1,4 +1,4 @@
-import app from "@/pages/firebase";
+import app from "./Firebase";
 import React, { useContext, useState, useEffect } from "react";
 import {
   getAuth,

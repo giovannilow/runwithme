@@ -108,7 +108,8 @@ export default function HomeBefLogin() {
       title: "Friends",
       content: (
         <>
-          <StatsText>Connect with friends</StatsText>, track each other's runs
+          <StatsText>Connect with friends</StatsText>&apos; track each
+          other&apos;s runs
         </>
       ),
     },
@@ -180,10 +181,10 @@ export default function HomeBefLogin() {
                   RunWithMe
                 </Heading>
                 <Text fontSize={"xl"} color={"gray.400"}>
-                  Make new friends, push each other's limits, set new records at
-                  RunWithMe. We make it easy and flexible. Find nearby runners
-                  or create an event on your own, and connect with new and old
-                  friends. Who says running is boring?
+                  Make new friends, push each other&apos;s limits, set new
+                  records at RunWithMe. We make it easy and flexible. Find
+                  nearby runners or create an event on your own, and connect
+                  with new and old friends. Who says running is boring?
                 </Text>
               </Box>
 

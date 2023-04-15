@@ -1,19 +1,20 @@
 import { useState, useEffect, useRef } from "react";
-import { firestore } from "./firebase";
-import { collection, getDocs, where, query } from "firebase/firestore";
-
+import { firestore } from "../contexts/Firebase";
 import {
-  IoAnalyticsSharp,
-  IoLogoBitcoin,
-  IoSearchSharp,
-} from "react-icons/io5";
+  collection,
+  getDocs,
+  where,
+  query,
+  orderBy,
+  limit,
+} from "firebase/firestore";
 import {
   Box,
   IconButton,
   useBreakpointValue,
   Button,
   Container,
-  SimpleGrid,
+  Badge,
   Image,
   Flex,
   Heading,
@@ -28,7 +29,6 @@ import "react-multi-carousel/lib/styles.css";
 
 const responsive = {
   superLargeDesktop: {
-    // the naming can be any, depends on you.
     breakpoint: { max: 4000, min: 3000 },
     items: 5,
   },
@@ -49,94 +49,115 @@ const responsive = {
 export default function HomeAftLogin() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  const today = new Date();
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        //const randomIds = Array.from
-        const q = query(
-          collection(firestore, "events"),
-          where("id", "==", "1")
-        );
-        const querySnapshot = await getDocs(q);
-        const eventsArray = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setEvents(eventsArray);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching events:", error);
-        setLoading(false);
-      }
-    };
-
     fetchData();
   }, []);
+
+  async function fetchData() {
+    try {
+      const q = query(
+        collection(firestore, "events"),
+        where("date", ">", today),
+        orderBy("date", "asc"),
+        limit(5)
+      );
+      const querySnapshot = await getDocs(q);
+      const eventsArray = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setEvents(eventsArray);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching events:", error);
+      setLoading(false);
+    }
+  }
+  if (!events) {
+    return <Text>Loading events...</Text>;
+  }
 
   return (
     <>
       <div style={{ padding: "15px" }}>
-        <p
-          style={{
-            fontFamily: "georgia,garamond,serif",
-            fontSize: "22px",
-            fontStyle: "italic",
-            fontWeight: "bolder",
-          }}
-        >
-          Find Events near you:{" "}
-        </p>
-      </div>
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <div className="carousel" style={{ display: "block", width: "1000px" }}>
-          <Carousel responsive={responsive}>
-            <div className="card" style={{ padding: "20px" }}>
-              <img
-                src="https://images.unsplash.com/photo-1548345680-f5475ea5df84?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1773&q=80"
-                alt="eventLocation"
-              />{" "}
-              <h2>Jonny's Evening Run</h2>
-              <p> Time: 7pm etcetc </p>
-              <Button> Join Event</Button>
-            </div>
-            <div className="card2" style={{ padding: "20px" }}>
-              <img
-                src="https://images.unsplash.com/photo-1548345680-f5475ea5df84?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1773&q=80"
-                alt="eventLocation"
-              />{" "}
-              <h2>Timmy's Evening Run</h2>
-              <p> Time: 1pm etcetc </p>
-              <Button> Join Event</Button>
-            </div>
-            <div>Item 3</div>
-            <div>Item 4</div>
-          </Carousel>
-        </div>
-      </div>
-      <div>
-        {events.map((event) => (
-          <Box
-            key={event.id}
-            borderWidth="1px"
-            borderRadius="lg"
-            overflow="hidden"
-            p="4"
+        <Badge colorScheme="blue">
+          <p
+            style={{
+              fontFamily: "georgia,garamond,serif",
+              fontSize: "22px",
+              fontStyle: "italic",
+              fontWeight: "bolder",
+            }}
           >
-            <Text fontWeight="bold">Title: {event.title}</Text>
-            <Text fontWeight="bold">
-              Date & Time: {new Date(event.date).toLocaleString()}
-            </Text>
-            <Text>Start Location: {event.startLocation}</Text>
-            <Text>Distance: {event.distance} km</Text>
-            <Text>Pace: {event.pace} min/km</Text>
-            <Text>Type: {event.recurrence}</Text>
+            Upcoming runs:{" "}
+          </p>
+        </Badge>
+      </div>
 
-            {event.recurrence === "recurrent" && (
-              <Text>Recurrence Frequency: {event.recurrenceFrequency}</Text>
-            )}
-          </Box>
-        ))}
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          padding: "5px",
+        }}
+      >
+        {events.length > 0 && (
+          <div
+            className="carousel"
+            style={{ width: "80%", boxShadow: "5px 10px 5px 10px #888888" }}
+          >
+            <Carousel
+              swipeable={false}
+              draggable={false}
+              showDots={true}
+              responsive={responsive}
+              ssr={true} // means to render carousel on server-side.
+              infinite={true}
+              //autoPlay={this.props.deviceType !== "mobile" ? true : false}
+              autoPlaySpeed={1000}
+              keyBoardControl={true}
+              customTransition="all .5"
+              transitionDuration={500}
+              containerClass="carousel-container"
+              removeArrowOnDeviceType={["tablet", "mobile"]}
+              //deviceType={this.props.deviceType}
+              dotListClass="custom-dot-list-style"
+              itemClass="carousel-item-padding-40-px"
+              width="100%"
+            >
+              {events.map((event) => (
+                <div
+                  key={event.id}
+                  style={{ padding: "20px", borderRight: "2px solid black" }}
+                >
+                  <img
+                    src="https://images.unsplash.com/photo-1548345680-f5475ea5df84?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1773&q=80"
+                    alt="eventLocation"
+                  />
+                  <Text fontWeight="bold">Title: {event.title}</Text>
+                  <Text fontWeight="bold">
+                    Date & Time: {event.date.toDate().toLocaleString()}
+                  </Text>
+                  <Text>Start Location: {event.startLocation}</Text>
+                  <Text>Distance: {event.distance} km</Text>
+                  <Text>Pace: {event.pace} min/km</Text>
+                  <Text>Type: {event.recurrence}</Text>
+
+                  {event.recurrence === "recurrent" ? (
+                    <Text>
+                      Recurrence Frequency: {event.recurrenceFrequency}
+                    </Text>
+                  ) : (
+                    <Text>
+                      <br />{" "}
+                    </Text>
+                  )}
+                </div>
+              ))}
+            </Carousel>
+          </div>
+        )}
       </div>
     </>
   );

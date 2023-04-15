@@ -6,13 +6,12 @@ import {
   collection,
   doc,
   setDoc,
-  firestore,
 } from "firebase/firestore";
-import app from "@/pages/firebase";
+import { firestore } from "../contexts/Firebase";
+
 import { BiRun } from "react-icons/bi";
 
 const TopData = () => {
-  const db = getFirestore(app);
   const [events, setEvents] = useState([]);
   const [totalEvents, setTotalEvents] = useState();
   const [loading, setLoading] = useState(true);
@@ -20,7 +19,7 @@ const TopData = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "events"));
+        const querySnapshot = await getDocs(collection(firestore, "events"));
         const eventsArray = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),

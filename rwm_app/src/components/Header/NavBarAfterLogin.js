@@ -44,7 +44,7 @@ const NavLink = ({ children }) => (
   </Link>
 );
 
-export default function withAction() {
+export default function NavBarAfterLogin() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();

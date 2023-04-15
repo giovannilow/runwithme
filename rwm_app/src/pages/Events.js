@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Box, Heading, SimpleGrid, VStack, Text } from "@chakra-ui/react";
-import { firestore } from "./firebase";
+import { firestore } from "../contexts/Firebase";
 import { collection, getDocs, Timestamp } from "firebase/firestore";
 
 const AllEvents = () => {
