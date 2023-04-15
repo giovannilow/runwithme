@@ -1,4 +1,12 @@
-import { Heading, Flex, Input, Button, Link } from "@chakra-ui/react";
+import {
+  Heading,
+  Flex,
+  Input,
+  Button,
+  Link,
+  useBreakpointValue,
+  Box,
+} from "@chakra-ui/react";
 import { Alert, AlertIcon, FormControl, FormLabel } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
@@ -29,50 +37,68 @@ export default function ForgotPassword() {
   }
 
   return (
-    <Flex
-      height="100vh"
-      flexDirection={"column"}
-      alignItems="center"
-      justifyContent={"center"}
+    <Box
+      style={{
+        backgroundImage: `url(/groupRunning.svg)`,
+        height: "90vh",
+        backgroundSize: "cover",
+        position: "relative",
+        backgroundPosition: "center",
+      }}
     >
-      <Flex direction="column" background="gray.100" p={12} rounded={6}>
-        <Heading mb={6}> Reset Password </Heading>
-        {error && (
-          <Alert status="error">
-            <AlertIcon />
-            {error}
-          </Alert>
-        )}
-        {message && (
-          <Alert status="success">
-            <AlertIcon />
-            {message}
-          </Alert>
-        )}
-        <form onSubmit={handleSubmit}>
-          <FormControl isRequired>
-            <FormLabel>Email</FormLabel>
-            <Input
-              id="email"
-              placeholder="enter email"
-              ref={emailRef}
-              variant="filled"
-              mb={3}
-              type="email"
-              // onChange={(event) => setEmail(event.currentTarget.value)}
-            />
-          </FormControl>
-          <Button disabled={loading} colorScheme="teal" type="submit">
-            Reset Password
-          </Button>
-        </form>
-        <Flex w-100 text-center mt-3>
-          <Link href={"/Login"}>Login</Link>
+      <Flex
+        height="90vh"
+        width="full"
+        paddingTop="100px"
+        alignItems="center"
+        direction={"column"}
+        justifyContent={"center"}
+        px={useBreakpointValue({ base: 4, md: 8 })}
+        bgGradient={"linear(to-r, blackAlpha.600, transparent)"}
+      >
+        <Flex direction="column" background="gray.100" p={12} rounded={6}>
+          <Heading mb={6}> Reset Password </Heading>
+          {error && (
+            <Alert status="error">
+              <AlertIcon />
+              {error}
+            </Alert>
+          )}
+          {message && (
+            <Alert status="success">
+              <AlertIcon />
+              {message}
+            </Alert>
+          )}
+          <form onSubmit={handleSubmit}>
+            <FormControl isRequired>
+              <FormLabel>Email</FormLabel>
+              <Input
+                id="email"
+                placeholder="enter email"
+                ref={emailRef}
+                variant="filled"
+                mb={3}
+                type="email"
+              />
+            </FormControl>
+            <Button
+              disabled={loading}
+              colorScheme="teal"
+              type="submit"
+              alignSelf="flex-end"
+            >
+              Reset Password
+            </Button>
+          </form>
+          <Flex width="100" mt="5">
+            Need an account? <Link href="/SignUp">Sign Up</Link>
+          </Flex>
+          <Flex width="100" mt="5">
+            Already have an account? <Link href="/Login">Login</Link>
+          </Flex>
         </Flex>
       </Flex>
-      <Flex w-100 text-center mt-5>
-        Need an account? <Link href="/SignUp">Sign Up</Link>
-      </Flex>
-    </Flex>
+    </Box>
   );
 }
