@@ -1,11 +1,27 @@
 import { useState, useEffect, useRef } from "react";
+import { firestore } from "./firebase";
+import { collection, getDocs, where, query } from "firebase/firestore";
+
+import {
+  IoAnalyticsSharp,
+  IoLogoBitcoin,
+  IoSearchSharp,
+} from "react-icons/io5";
 import {
   Box,
   IconButton,
   useBreakpointValue,
-  Container,
-  Text,
   Button,
+  Container,
+  SimpleGrid,
+  Image,
+  Flex,
+  Heading,
+  Text,
+  Stack,
+  StackDivider,
+  Icon,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -31,6 +47,33 @@ const responsive = {
 };
 
 export default function HomeAftLogin() {
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        //const randomIds = Array.from
+        const q = query(
+          collection(firestore, "events"),
+          where("id", "==", "1")
+        );
+        const querySnapshot = await getDocs(q);
+        const eventsArray = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setEvents(eventsArray);
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching events:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   return (
     <>
       <div style={{ padding: "15px" }}>
@@ -70,6 +113,30 @@ export default function HomeAftLogin() {
             <div>Item 4</div>
           </Carousel>
         </div>
+      </div>
+      <div>
+        {events.map((event) => (
+          <Box
+            key={event.id}
+            borderWidth="1px"
+            borderRadius="lg"
+            overflow="hidden"
+            p="4"
+          >
+            <Text fontWeight="bold">Title: {event.title}</Text>
+            <Text fontWeight="bold">
+              Date & Time: {new Date(event.date).toLocaleString()}
+            </Text>
+            <Text>Start Location: {event.startLocation}</Text>
+            <Text>Distance: {event.distance} km</Text>
+            <Text>Pace: {event.pace} min/km</Text>
+            <Text>Type: {event.recurrence}</Text>
+
+            {event.recurrence === "recurrent" && (
+              <Text>Recurrence Frequency: {event.recurrenceFrequency}</Text>
+            )}
+          </Box>
+        ))}
       </div>
     </>
   );

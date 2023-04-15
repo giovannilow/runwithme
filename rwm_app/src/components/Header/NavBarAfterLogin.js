@@ -28,6 +28,10 @@ const Links = [
     url: "/Events",
   },
   {
+    name: "Calendar",
+    url: "/calendarPage",
+  },
+  {
     name: "Post Feed",
     url: "/Feed",
   },

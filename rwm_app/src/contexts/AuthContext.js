@@ -40,8 +40,19 @@ export function AuthProvider({ children }) {
   // check chat layout should be shown, or not.
   const [isChatLayoutShown, setIsChatLayoutShown] = useState(false);
 
-  function signup(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password);
+  function signup(email, password, displayName) {
+    return createUserWithEmailAndPassword(auth, email, password).then(
+      (cred) => {
+        const usersCollection = collection(db, "users");
+        const userDocRef = doc(usersCollection, cred.user.uid);
+        return setDoc(userDocRef, {
+          userEmail: email,
+          userPassword: password,
+          userName: displayName,
+          createdDate: new Date(),
+        });
+      }
+    );
   }
 
   // async function login(email, password) {

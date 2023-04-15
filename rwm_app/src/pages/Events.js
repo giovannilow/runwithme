@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Box, Heading, SimpleGrid, VStack, Text } from "@chakra-ui/react";
 import { firestore } from "./firebase";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, Timestamp } from "firebase/firestore";
 
 const AllEvents = () => {
   const [events, setEvents] = useState([]);
@@ -49,8 +49,12 @@ const AllEvents = () => {
               p="4"
             >
               <Text fontWeight="bold">Title: {event.title}</Text>
-              <Text fontWeight="bold">
+              {/* <Text fontWeight="bold">
                 Date & Time: {new Date(event.date).toLocaleString()}
+              </Text> */}
+
+              <Text fontWeight="bold">
+                Date & Time: {event.date.toDate().toLocaleString()}
               </Text>
               <Text>Start Location: {event.startLocation}</Text>
               <Text>Distance: {event.distance} km</Text>

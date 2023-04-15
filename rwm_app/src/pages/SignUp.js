@@ -29,7 +29,11 @@ export default function SignUp() {
     try {
       setError("");
       setLoading(true);
-      await signup(emailRef.current.value, passwordRef.current.value);
+      await signup(
+        emailRef.current.value,
+        passwordRef.current.value,
+        nameRef.current.value
+      );
       await setNewName(nameRef.current.value);
       router.push("/");
     } catch {
