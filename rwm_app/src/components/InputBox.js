@@ -135,10 +135,10 @@ function InputBox() {
         <CardHeader>
           <Flex spacing="4">
             <Flex flex="1" gap="4" alignItems="center" flexWrap="wrap">
-              <Avatar src={currentUser.photoURL} />
+              <Avatar src={currentUser?.photoURL} />
 
               <Box>
-                <Heading size="sm">{currentUser.displayName}</Heading>
+                <Heading size="sm">{currentUser?.displayName}</Heading>
               </Box>
             </Flex>
           </Flex>

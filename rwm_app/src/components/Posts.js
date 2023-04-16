@@ -51,7 +51,7 @@ function Post({
   const router = useRouter();
   const { currentUser } = useAuth();
   const [like, setLike] = useState(
-    Object.values(likedBy).includes(currentUser.uid)
+    Object.values(likedBy).includes(currentUser?.uid)
   );
 
   const handleLike = async () => {
