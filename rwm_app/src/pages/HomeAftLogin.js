@@ -282,6 +282,7 @@ export default function HomeAftLogin() {
                       <Stack direction={"column"} spacing={0} fontSize={"sm"}>
                         <Text fontWeight={600}></Text>
                         <Text color={"gray.500"}></Text>
+                        <Text>Participants: {event.participants.length}</Text>
                         <Button
                           colorScheme={
                             event.participants.includes(currentUser.uid) ? "red" : "blue"

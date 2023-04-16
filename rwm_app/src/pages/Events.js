@@ -248,6 +248,7 @@ const AllEvents = () => {
                 {event.recurrence === "recurrent" && (
                   <Text>Recurrence Frequency: {event.recurrenceFrequency}</Text>
                 )}
+                <Text>Participants: {event.participants.length}</Text>
                 <Button
                   colorScheme="blue"
                   mt={3}
@@ -304,6 +305,7 @@ const AllEvents = () => {
                       Recurrence Frequency: {event.recurrenceFrequency}
                     </Text>
                   )}
+                  <Text>Participants: {event.participants.length}</Text>
                   <Button
                     colorScheme={
                       event.participants.includes(currentUser.uid) ? "red" : "blue"
