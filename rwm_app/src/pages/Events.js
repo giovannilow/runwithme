@@ -75,9 +75,9 @@ const AllEvents = () => {
         events.map((event) =>
           event.id === eventId
             ? {
-              ...event,
-              participants: [...event.participants, currentUser.uid],
-            }
+                ...event,
+                participants: [...event.participants, currentUser.uid],
+              }
             : event
         )
       );
@@ -96,11 +96,11 @@ const AllEvents = () => {
         events.map((event) =>
           event.id === eventId
             ? {
-              ...event,
-              participants: event.participants.filter(
-                (uid) => uid !== currentUser.uid
-              ),
-            }
+                ...event,
+                participants: event.participants.filter(
+                  (uid) => uid !== currentUser.uid
+                ),
+              }
             : event
         )
       );
