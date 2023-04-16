@@ -123,10 +123,10 @@ export default function Calendar() {
 									>
 										{date.date()}
 									</h1>
-									{events.filter((event) => event.date === date.toDate().toDateString()).length > 0 && (
-										<div className="absolute top-20 right-4 -mt-2 -mr-2 flex">
+									{events.filter((event) => event.date.toDate().toDateString() === date.toDate().toDateString()).length > 0 && (
+										<div className="absolute top-12 right-4 -mt-2 -mr-2 flex">
 										{events
-											.filter((event) => event.date === date.toDate().toDateString())
+											.filter((event) => event.date.toDate().toDateString() === date.toDate().toDateString())
 											.map((event, index) => (
 											<div
 												key={index}
@@ -147,10 +147,10 @@ export default function Calendar() {
 					Schedule for {selectDate.toDate().toDateString()}
 				</h1>
 				<div className="mt-5">
-					{events
-						.filter((event) => {
-							const eventDate = new Date(event.date);
-        					return eventDate.toDateString() === selectDate.toDate().toDateString();
+					{events.filter((event) => {
+						// const eventDate = new Date(event.date);
+						const eventDate = event.date.toDate()
+						return eventDate.toDateString() === selectDate.toDate().toDateString();
 						})
 						.map((event, index) => (
 							<div key={index} className="mb-2">
@@ -162,7 +162,7 @@ export default function Calendar() {
 							</div>
 						))
 					}
-					{events.filter((event) => event.date === selectDate.toDate().toDateString()).length === 0 && (
+					{events.filter((event) => event.date.toDate().toDateString() === selectDate.toDate().toDateString()).length === 0 && (
 					<p className="text-gray-400">No events for today.</p>
 					)}
 				</div>

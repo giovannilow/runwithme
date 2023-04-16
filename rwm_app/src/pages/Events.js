@@ -153,17 +153,19 @@ const AllEvents = () => {
                 <Text>Pace: {event.pace} min/km</Text>
                 <Text>Type: {event.recurrence}</Text>
 
-                {event.recurrence === "recurrent" && (
-                  <Text>Recurrence Frequency: {event.recurrenceFrequency}</Text>
-                )}
-                <Button colorScheme="red" mt={3} onClick={() => { setEventToDelete(event.id); setIsDeleteOpen(true); }}>
-                  Delete
-                </Button>
-              </Box>
-            ))
-          ) : (
-            <Text>No events</Text>
-          )}
+              <Text fontWeight="bold">
+                Date & Time: {event.date.toDate().toDateString()}
+              </Text>
+              <Text>Start Location: {event.startLocation}</Text>
+              <Text>Distance: {event.distance} km</Text>
+              <Text>Pace: {event.pace} min/km</Text>
+              <Text>Type: {event.recurrence}</Text>
+
+              {event.recurrence === "recurrent" && (
+                <Text>Recurrence Frequency: {event.recurrenceFrequency}</Text>
+              )}
+            </Box>
+          ))) : ""}
         </SimpleGrid>
         <Heading size="md">Open Events</Heading>
         {currentUser && (
