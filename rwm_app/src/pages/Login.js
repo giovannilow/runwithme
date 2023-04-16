@@ -1,4 +1,12 @@
-import { Heading, Flex, Input, Button, Link, Box } from "@chakra-ui/react";
+import {
+  Heading,
+  Flex,
+  Input,
+  Button,
+  Link,
+  Box,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import { Alert, AlertIcon, FormControl, FormLabel } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
@@ -11,10 +19,6 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
-  const image = [
-    "https://images.unsplash.com/photo-1506102383123-c8ef1e872756?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80",
-  ];
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -40,20 +44,22 @@ export default function Login() {
   return (
     <Box
       style={{
-        backgroundImage: `url(${image})`,
-        height: "650px",
+        backgroundImage: `url(/groupRunning.svg)`,
+        height: "90vh",
         backgroundSize: "cover",
         position: "relative",
         backgroundPosition: "center",
       }}
     >
       <Flex
-        //height="100vh"
-        //width="1500px"
+        height="90vh"
+        width="full"
         paddingTop="100px"
         alignItems="center"
         direction={"column"}
         justifyContent={"center"}
+        px={useBreakpointValue({ base: 4, md: 8 })}
+        bgGradient={"linear(to-r, blackAlpha.600, transparent)"}
       >
         <Flex direction="column" background="gray.100" p={12} rounded={6}>
           <Heading mb={6}> Log In </Heading>

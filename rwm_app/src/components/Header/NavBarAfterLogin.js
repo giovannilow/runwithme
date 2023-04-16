@@ -19,15 +19,26 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAuth } from "../../contexts/AuthContext";
 import { useRouter } from "next/router";
 
 const Links = [
   {
-    name: "Events",
+    name: "Running Events",
     url: "/Events",
   },
+<<<<<<< HEAD
   { name: "About", url: "/About" },
+=======
+  {
+    name: "Calendar",
+    url: "/calendarPage",
+  },
+  {
+    name: "Post Feed",
+    url: "/Feed",
+  },
+>>>>>>> refs/remotes/origin/main
 ];
 
 const NavLink = ({ children }) => (
@@ -94,7 +105,7 @@ export default function NavBarAfterLogin() {
               display={{ base: "none", md: "flex" }}
             >
               {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+                <NavLink key={link.url}>{link}</NavLink>
               ))}
             </HStack>
           </HStack>
@@ -139,7 +150,7 @@ export default function NavBarAfterLogin() {
           <Box pb={4} display={{ md: "none" }}>
             <Stack as={"nav"} spacing={4}>
               {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+                <NavLink key={link.url}>{link}</NavLink>
               ))}
             </Stack>
           </Box>

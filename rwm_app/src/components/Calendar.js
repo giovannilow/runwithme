@@ -1,25 +1,25 @@
 import dayjs from 'dayjs'
 
-const events = [
-    {
-      id: 1,
-      title: "Meeting with John",
-      description: "Discuss project timeline",
-      date: "2023-04-02"
-    },
-    {
-      id: 2,
-      title: "Lunch with Lisa",
-      description: "Catch up on personal matters",
-      date: "2023-04-07"
-    },
-    {
-      id: 3,
-      title: "Client call",
-      description: "Discuss project requirements",
-      date: "2023-04-17"
-    }
-  ];
+// const events = [
+//     {
+//       id: 1,
+//       title: "Meeting with John",
+//       description: "Discuss project timeline",
+//       date: "2023-04-02"
+//     },
+//     {
+//       id: 2,
+//       title: "Lunch with Lisa",
+//       description: "Catch up on personal matters",
+//       date: "2023-04-07"
+//     },
+//     {
+//       id: 3,
+//       title: "Client call",
+//       description: "Discuss project requirements",
+//       date: "2023-04-17"
+//     }
+//   ];
 
 export const generateDate = (
     month = dayjs().month(),

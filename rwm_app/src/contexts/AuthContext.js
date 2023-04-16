@@ -27,9 +27,32 @@ export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
   const [isAdmin, setisAdmin] = useState(false);
+  // create loading state and share to other components.
+  const [isLoading, setIsLoading] = useState(false);
 
-  function signup(email, password) {
-    return createUserWithEmailAndPassword(auth, email, password);
+  const [hasLoaded, setHasLoaded] = useState(false);
+  // comet chat.
+  const [cometChat, setCometChat] = useState(null);
+  // posts
+  const [wallPosts, setWallPosts] = useState([]);
+  // selected user / group.
+  const [selectedContact, setSelectedContact] = useState(null);
+  // check chat layout should be shown, or not.
+  const [isChatLayoutShown, setIsChatLayoutShown] = useState(false);
+
+  function signup(email, password, displayName) {
+    return createUserWithEmailAndPassword(auth, email, password).then(
+      (cred) => {
+        const usersCollection = collection(db, "users");
+        const userDocRef = doc(usersCollection, cred.user.uid);
+        return setDoc(userDocRef, {
+          userEmail: email,
+          userPassword: password,
+          userName: displayName,
+          createdDate: new Date(),
+        });
+      }
+    );
   }
 
   // async function login(email, password) {
@@ -121,6 +144,18 @@ export function AuthProvider({ children }) {
     isAdmin,
     setisAdmin,
     setCurrentUser,
+    isLoading,
+    setIsLoading,
+    hasLoaded,
+    setHasLoaded,
+    cometChat,
+    setCometChat,
+    wallPosts,
+    setWallPosts,
+    selectedContact,
+    setSelectedContact,
+    isChatLayoutShown,
+    setIsChatLayoutShown,
   };
 
   return (

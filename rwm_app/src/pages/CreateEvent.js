@@ -31,6 +31,8 @@ export default function CreateEvent() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    const auth = getAuth();
+    const currentUserUid = auth.currentUser.uid;
 
     const eventData = {
       title: titleRef.current.value,
@@ -39,6 +41,8 @@ export default function CreateEvent() {
       distance: distanceRef.current.value,
       pace: paceRef.current.value,
       recurrence,
+      createdBy: currentUserUid,
+      participants: [],
     };
 
     if (recurrence === "recurrent") {

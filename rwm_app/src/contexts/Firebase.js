@@ -1,9 +1,11 @@
 import firebase, { FirebaseError } from "firebase/app";
 import { initializeApp } from "firebase/app";
 import "firebase/auth";
+import { getAuth } from "firebase/auth";
 import "firebase/database";
 import { getDatabase } from "firebase/database";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: "AIzaSyBBzojbQYPUjePUP6laVyY - X44PvXxxegE",
@@ -17,6 +19,9 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
+
+export const auth = getAuth();
+export const storage = getStorage();
 export const database = getDatabase();
 export const firestore = getFirestore(app);
 

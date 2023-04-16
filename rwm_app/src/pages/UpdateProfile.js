@@ -115,7 +115,7 @@ export default function UpdateProfile() {
             <FormLabel>Password</FormLabel>
             <Input
               id="password"
-              placeholder="Leave black to keep the same"
+              placeholder="Leave blank to keep the same"
               variant="filled"
               ref={passwordRef}
               mb={6}
@@ -127,7 +127,7 @@ export default function UpdateProfile() {
           <FormControl>
             <FormLabel>Confirm Password</FormLabel>
             <Input
-              placeholder="Leave black to keep the same"
+              placeholder="Leave blank to keep the same"
               variant="filled"
               ref={passwordConfirmRef}
               mb={6}

@@ -1,8 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Text } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import { generateDate } from "@/components/Calendar";
 import cn from "@/components/cn";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+import { firestore } from "./firebase";
+import { collection, getDocs } from "firebase/firestore";
 
 export default function Calendar() {
   const days = ["S", "M", "T", "W", "T", "F", "S"];
@@ -21,27 +24,54 @@ export default function Calendar() {
     "November",
     "December",
   ];
-  const [events, setEvents] = useState([
-    {
-      title: "Event 1",
-      date: "Tue Apr 11 2023",
-      distance: "5 miles",
-      pace: "9:30/mile",
-      recurrence: "Weekly",
-      startLocation: "Central Park",
-    },
-    {
-      title: "Event 2",
-      date: "Fri Apr 14 2023",
-      distance: "10 miles",
-      pace: "8:45/mile",
-      recurrence: "Monthly",
-      startLocation: "Battery Park",
-    },
-  ]);
-  const eventDate = new Date(event.date);
+
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  // const [events, setEvents] = useState([
+  // 	{
+  // 	  title: "Event 1",
+  // 	  date: "Tue Apr 11 2023",
+  // 	  distance: "5 miles",
+  // 	  pace: "9:30/mile",
+  // 	  recurrence: "Weekly",
+  // 	  startLocation: "Central Park"
+  // 	},
+  // 	{
+  // 	  title: "Event 2",
+  // 	  date: "Fri Apr 14 2023",
+  // 	  distance: "10 miles",
+  // 	  pace: "8:45/mile",
+  // 	  recurrence: "Monthly",
+  // 	  startLocation: "Battery Park"
+  // 	}
+  //   ]);
+  const eventDate = new Date();
   const [today, setToday] = useState(currentDate);
   const [selectDate, setSelectDate] = useState(currentDate);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      //   try {
+      const querySnapshot = await getDocs(collection(firestore, "events"));
+      const eventsArray = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setEvents(eventsArray);
+      setLoading(false);
+      //   } catch (error) {
+      // 	console.error("Error fetching events:", error);
+      // 	setLoading(false);
+      //   }
+    };
+
+    fetchData();
+  }, []);
+
+  // if (loading) {
+  // return <Text>Loading events...</Text>;
+  // }
+
   return (
     <div className="flex gap-10 sm:divide-x justify-center sm:w-1/2 mx-auto  h-screen items-center sm:flex-row flex-col">
       <div className="w-96 h-96 ">
