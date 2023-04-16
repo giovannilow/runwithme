@@ -55,22 +55,6 @@ export function AuthProvider({ children }) {
     );
   }
 
-  // async function login(email, password) {
-  //   const signIn = signInWithEmailAndPassword(auth, email, password);
-  //   const querySnapshot = await getDocs(collection(db, "admins"));
-  //   querySnapshot.docs.forEach((doc) => {
-  //     signIn.then((data) => {
-  //       console.log(data.user.uid);
-  //       console.log(doc.id);
-  //       if (data.user.uid === doc.id) {
-  //         setisAdmin(true);
-  //         console.log(isAdmin);
-  //       }
-  //     });
-  //   });
-  //   return isAdmin;
-  // }
-
   async function login(email, password) {
     const signIn = signInWithEmailAndPassword(auth, email, password);
     const querySnapshot = await getDocs(collection(db, "admins"));
