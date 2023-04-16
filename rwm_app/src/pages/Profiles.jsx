@@ -22,15 +22,17 @@ import {
   updatePassword,
   deleteUser,
 } from "firebase/auth";
-import app from "@/pages/firebase";
+import app from "../contexts/Firebase";
 import { BsPersonFill, BsThreeDotsVertical } from "react-icons/bs";
 import { mockDataProfiles } from "@/data/mockdata";
 import { WrapItem, Avatar } from "@chakra-ui/react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { MdEvent, MdEdit, MdDelete } from "react-icons/md";
 import Swal from "sweetalert2";
+import { useRouter } from "next/router";
 
 const Profiles = () => {
+  const router = useRouter();
   const auth = getAuth(app);
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState([]);
@@ -82,8 +84,8 @@ const Profiles = () => {
   const deleteApi = async (id, fetchData) => {
     const usersDoc = doc(db, "users", id);
     await deleteDoc(usersDoc);
-    await deleteUserFromAuth(id);
     Swal.fire("Deleted!", "User profile has been deleted.", "success");
+    router.push("/Admin");
   };
 
   return (

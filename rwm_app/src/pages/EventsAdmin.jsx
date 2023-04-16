@@ -11,7 +11,7 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
-import app from "@/pages/firebase";
+import app from "../contexts/Firebase";
 import { FaShoppingBag } from "react-icons/fa";
 import { BsThreeDotsVertical, BsTrash, BsPencilSquare } from "react-icons/bs";
 import { mockDataEvents } from "@/data/mockdata.js";
@@ -20,8 +20,10 @@ import { WrapItem, Avatar } from "@chakra-ui/react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
+import { useRouter } from "next/router";
 
 const Events = () => {
+  const router = useRouter();
   const db = getFirestore(app);
   const [events, setEvents] = useState([]);
   const [totalEvents, setTotalEvents] = useState();
@@ -47,6 +49,7 @@ const Events = () => {
     const eventDoc = doc(db, "events", id);
     await deleteDoc(eventDoc);
     Swal.fire("Deleted!", "Your event has been deleted.", "success");
+    router.push("/Admin");
   };
 
   useEffect(() => {

@@ -161,6 +161,7 @@ const AllEvents = () => {
                 <Text>Pace: {event.pace} min/km</Text>
                 <Text>Type: {event.recurrence}</Text>
 
+<<<<<<< HEAD
                 {event.recurrence === "recurrent" && (
                   <Text>Recurrence Frequency: {event.recurrenceFrequency}</Text>
                 )}
@@ -179,6 +180,21 @@ const AllEvents = () => {
           ) : (
             <Text>No events</Text>
           )}
+=======
+              <Text fontWeight="bold">
+                Date & Time: {event.date.toDate().toDateString()}
+              </Text>
+              <Text>Start Location: {event.startLocation}</Text>
+              <Text>Distance: {event.distance} km</Text>
+              <Text>Pace: {event.pace} min/km</Text>
+              <Text>Type: {event.recurrence}</Text>
+
+              {event.recurrence === "recurrent" && (
+                <Text>Recurrence Frequency: {event.recurrenceFrequency}</Text>
+              )}
+            </Box>
+          ))) : ""}
+>>>>>>> refs/remotes/origin/main
         </SimpleGrid>
         <Heading size="md">Open Events</Heading>
         {currentUser && (

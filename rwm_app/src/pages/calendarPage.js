@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { generateDate } from "@/components/Calendar";
 import cn from "@/components/cn";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
-import { firestore } from "../contexts/firebase";
+import { firestore } from "../contexts/Firebase";
 import { collection, getDocs } from "firebase/firestore";
 
 export default function Calendar() {
@@ -16,7 +16,7 @@ export default function Calendar() {
     "March",
     "April",
     "May",
-    "June",
+    "June", 
     "July",
     "August",
     "September",
@@ -193,4 +193,71 @@ export default function Calendar() {
       </div>
     </div>
   );
+}
+<div className=" grid grid-cols-7 ">
+					{generateDate(today.month(), today.year(), events).map(
+						({ date, currentMonth, today }, index) => {
+							return (
+								<div className="p-2 text-center h-14 grid place-content-center text-sm border-t relative">
+									<h1
+										className={cn(
+										currentMonth ? "" : "text-gray-400",
+										today ? "bg-red-600 text-white" : "",
+										selectDate.toDate().toDateString() === date.toDate().toDateString()
+											? "bg-black text-white"
+											: "",
+										"h-10 w-10 rounded-full grid place-content-center hover:bg-black hover:text-white transition-all cursor-pointer select-none"
+										)}
+										onClick={() => {
+										setSelectDate(date);
+										}}
+									>
+										{date.date()}
+									</h1>
+									{events.filter((event) => event.date.toDate().toDateString() === date.toDate().toDateString()).length > 0 && (
+										<div className="absolute top-12 right-4 -mt-2 -mr-2 flex">
+										{events
+											.filter((event) => event.date.toDate().toDateString() === date.toDate().toDateString())
+											.map((event, index) => (
+											<div
+												key={index}
+												className="w-1 h-1 bg-red-600 rounded-full mr-1"
+												title={event.title}
+											></div>
+											))}
+										</div>
+									)}
+								</div>
+							);
+						}
+					)}
+				</div>
+			</div>
+			<div className="h-96 w-96 sm:px-5">
+				<h1 className="font-semibold">
+					Schedule for {selectDate.toDate().toDateString()}
+				</h1>
+				<div className="mt-5">
+					{events.filter((event) => {
+						// const eventDate = new Date(event.date);
+						const eventDate = event.date.toDate()
+						return eventDate.toDateString() === selectDate.toDate().toDateString();
+						})
+						.map((event, index) => (
+							<div key={index} className="mb-2">
+							<h2 className="text-xl font-semibold">{event.title}</h2>
+							<p>
+								Distance: {event.distance}, Pace: {event.pace}, Recurrence: {event.recurrence}
+							</p>
+							<p>Start Location: {event.startLocation}</p>
+							</div>
+						))
+					}
+					{events.filter((event) => event.date.toDate().toDateString() === selectDate.toDate().toDateString()).length === 0 && (
+					<p className="text-gray-400">No events for today.</p>
+					)}
+				</div>
+			</div>
+		</div>
+	);
 }
