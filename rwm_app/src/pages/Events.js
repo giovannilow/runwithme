@@ -26,6 +26,7 @@ import {
   Radio,
   Stack,
   RadioGroup,
+  Input
 } from "@chakra-ui/react";
 import { firestore } from "../contexts/Firebase";
 import {
@@ -39,7 +40,6 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { Input } from "postcss";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -62,27 +62,30 @@ const AllEvents = () => {
   const paceRef = useRef();
   const titleRef = useRef();
   const [recurrence, setRecurrence] = useState("one-off");
+  const [error, setError] = useState("");
 
   const { currentUser } = getAuth();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const querySnapshot = await getDocs(collection(firestore, "events"));
-        const eventsArray = querySnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setEvents(eventsArray);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching events:", error);
-        setLoading(false);
-      }
-    };
+  const [refreshData, setRefreshData] = useState(false);
 
+  const fetchData = async () => {
+    try {
+      const querySnapshot = await getDocs(collection(firestore, "events"));
+      const eventsArray = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      setEvents(eventsArray);
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching events:", error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
     fetchData();
-  }, []);
+  }, [refreshData]);
 
   const myEvents = events.filter(
     (event) => event.createdBy === currentUser.uid
@@ -114,6 +117,7 @@ const AllEvents = () => {
       console.error("Error joining event:", error);
     }
   };
+
   // Function to leave an event
   const leaveEvent = async (eventId) => {
     try {
@@ -159,8 +163,10 @@ const AllEvents = () => {
 
   const openEditDialog = (event) => {
     setEventToEdit(event);
+    setStartDate(event.date.toDate());
     onEditOpen();
   };
+
   async function handleEditSubmit(e) {
     e.preventDefault();
 
@@ -399,7 +405,7 @@ const AllEvents = () => {
                   <Box mb={3} width="400px">
                     <DatePicker
                       id="date"
-                      selected={startDate || eventToEdit?.date.toDate()}
+                      selected={startDate}
                       onChange={(date) => setStartDate(date)}
                       showTimeSelect
                       timeFormat="HH:mm"
