@@ -27,9 +27,6 @@ const Links = [
     name: "Running Events",
     url: "/Events",
   },
-<<<<<<< HEAD
-  { name: "About", url: "/About" },
-=======
   {
     name: "Calendar",
     url: "/calendarPage",
@@ -38,7 +35,6 @@ const Links = [
     name: "Post Feed",
     url: "/Feed",
   },
->>>>>>> refs/remotes/origin/main
 ];
 
 const NavLink = ({ children }) => (

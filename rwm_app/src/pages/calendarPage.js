@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 import { generateDate } from "@/components/Calendar";
 import cn from "@/components/cn";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
-import { firestore } from "./firebase";
+import { firestore } from "../contexts/firebase";
 import { collection, getDocs } from "firebase/firestore";
 
 export default function Calendar() {
