@@ -17,6 +17,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { firestore } from "../contexts/Firebase";
 import { doc, setDoc, addDoc, collection } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 export default function CreateEvent() {
   const [startDate, setStartDate] = useState(null);
