@@ -28,6 +28,7 @@ import {
 } from "@chakra-ui/react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { useAuth } from "../contexts/AuthContext";
 
 const responsive = {
   superLargeDesktop: {
@@ -51,6 +52,7 @@ const responsive = {
 export default function HomeAftLogin() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const { currentUser } = useAuth();
   const today = new Date();
   useEffect(() => {
     fetchData();
@@ -218,12 +220,7 @@ export default function HomeAftLogin() {
                       spacing={4}
                       align={"center"}
                     >
-                      <Avatar
-                        src={
-                          "https://avatars0.githubusercontent.com/u/1164541?v=4"
-                        }
-                        alt={"Author"}
-                      />
+                      <Avatar src={event.userAvatar} alt={"Author"} />
                       <Stack direction={"column"} spacing={0} fontSize={"sm"}>
                         <Text fontWeight={600}></Text>
                         <Text color={"gray.500"}></Text>
