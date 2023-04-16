@@ -49,15 +49,13 @@ export default function ProfilePage() {
           </Alert>
         )}
 
-        <Avatar size="2xl" src={currentUser.photoURL} />
+        <Avatar size="2xl" src={currentUser?.photoURL} />
         <strong>Name:</strong>
-        {currentUser.displayName}
+        {currentUser?.displayName}
         <strong>Email:</strong>
-        {currentUser.email}
+        {currentUser?.email}
         <Button
           colorScheme={"teal"}
-          w-100
-          text-center
           mt={5}
           onClick={() => {
             router.push("/UpdateProfile");

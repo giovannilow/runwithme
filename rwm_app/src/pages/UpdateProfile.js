@@ -88,7 +88,7 @@ export default function UpdateProfile() {
               Upload Profile Picture
             </Button>
           </Flex>
-          <FormControl isRequired defaultValue={currentUser.displayName}>
+          <FormControl isRequired defaultValue={currentUser?.displayName}>
             <FormLabel>Name</FormLabel>
             <Input
               id="name"
@@ -99,7 +99,7 @@ export default function UpdateProfile() {
               // onChange={(event) => setEmail(event.currentTarget.value)}
             />
           </FormControl>
-          <FormControl isRequired defaultValue={currentUser.email}>
+          <FormControl isRequired defaultValue={currentUser?.email}>
             <FormLabel>Email</FormLabel>
             <Input
               id="email"
