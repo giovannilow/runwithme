@@ -271,6 +271,7 @@ export default function Calendar() {
 									{event.recurrence}
 								</p>
 								<p>Start Location: {event.startLocation}</p>
+								<Text>Participants: {event.participants.length}</Text>
 								<Button
 									colorScheme={
 										event.participants.includes(currentUser.uid) ? "red" : "blue"
