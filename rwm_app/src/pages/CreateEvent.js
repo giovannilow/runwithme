@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { firestore } from "./firebase";
+import { getAuth } from "firebase/auth";
 import { doc, setDoc, addDoc, collection } from "firebase/firestore";
 
 export default function CreateEvent() {
@@ -31,6 +32,8 @@ export default function CreateEvent() {
 
   async function handleSubmit(e) {
     e.preventDefault();
+    const auth = getAuth();
+    const currentUserUid = auth.currentUser.uid;
 
     const eventData = {
       title: titleRef.current.value,
@@ -39,7 +42,10 @@ export default function CreateEvent() {
       distance: distanceRef.current.value,
       pace: paceRef.current.value,
       recurrence,
+      createdBy: currentUserUid,
+      participants: [],
     };
+
 
     if (recurrence === "recurrent") {
       eventData.recurrenceFrequency = document.getElementById(
