@@ -1,5 +1,5 @@
 import React from "react";
-import { firestore } from "../contexts/Firebase";
+import { app } from "../../contexts/Firebase";
 import { mockDataEvents } from "@/data/mockdata";
 import { BiRun } from "react-icons/bi";
 import {

@@ -20,7 +20,7 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
-import app from "@/pages/firebase";
+import app from "../../contexts/Firebase";
 import { useRouter } from "next/router";
 
 ChartJS.register(
