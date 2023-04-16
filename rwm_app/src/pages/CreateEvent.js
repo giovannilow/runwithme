@@ -17,6 +17,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { firestore } from "../contexts/Firebase";
 import { doc, setDoc, addDoc, collection } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 export default function CreateEvent() {
   const [startDate, setStartDate] = useState(null);
@@ -33,6 +34,7 @@ export default function CreateEvent() {
     e.preventDefault();
     const auth = getAuth();
     const currentUserUid = auth.currentUser.uid;
+    const currentUserAvatar = auth.currentUser.photoURL;
 
     const eventData = {
       title: titleRef.current.value,
@@ -43,6 +45,7 @@ export default function CreateEvent() {
       recurrence,
       createdBy: currentUserUid,
       participants: [],
+      userAvatar: currentUserAvatar,
     };
 
     if (recurrence === "recurrent") {

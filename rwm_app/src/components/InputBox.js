@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { v4 as uuidv4 } from "uuid";
 import { FcStackOfPhotos } from "react-icons/fc";
-import { firestore, storage } from "../contexts/firebase";
+import { firestore, storage } from "../components/Firebase";
 import { ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
 import {
   collection,
