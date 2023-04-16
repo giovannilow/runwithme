@@ -75,7 +75,7 @@ export default function CreateEvent() {
     <Box
       style={{
         background: "#F8F8F8",
-        height: "650px",
+        height: "120vh",
         backgroundSize: "cover",
         position: "relative",
         backgroundPosition: "center",
