@@ -139,7 +139,7 @@ const BarChart = () => {
       maintainAspectRatio: false,
       responsive: true,
     });
-  }, []);
+  }, [events]);
 
   return (
     <>
