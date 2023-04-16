@@ -26,6 +26,7 @@ import {
   Radio,
   Stack,
   RadioGroup,
+  Input
 } from "@chakra-ui/react";
 import { firestore } from "../contexts/Firebase";
 import {
@@ -39,7 +40,6 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-import { Input } from "postcss";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
