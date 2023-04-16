@@ -25,10 +25,12 @@ function Feed({ posts }) {
     <Flex
       //height="100vh"
       //width="1500px"
-      paddingTop="100px"
+      paddingTop="60px"
+      paddingBottom="40px"
       alignItems="center"
       direction={"column"}
       justifyContent={"center"}
+      minHeight="calc(100vh - 100px + 10vh)"
     >
       <div className="feed__container">
         <Heading mb={6}> Post Feed </Heading>

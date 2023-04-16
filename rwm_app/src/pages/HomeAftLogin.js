@@ -169,15 +169,14 @@ export default function HomeAftLogin() {
 
   return (
     <div
-      style={
-        {
-          //backgroundImage:
-          // 'url("https://images.unsplash.com/photo-1547483238-f400e65ccd56?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80")',
-          // backgroundPosition: "center",
-          // backgroundsize: "cover",
-          // backgroudColour: "red",
-        }
-      }
+      style={{
+        height: "110vh",
+        //backgroundImage:
+        // 'url("https://images.unsplash.com/photo-1547483238-f400e65ccd56?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80")',
+        // backgroundPosition: "center",
+        // backgroundsize: "cover",
+        // backgroudColour: "red",
+      }}
     >
       <div style={{ padding: "15px" }}></div>
 

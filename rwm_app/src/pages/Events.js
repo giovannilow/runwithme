@@ -50,7 +50,11 @@ const AllEvents = () => {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [eventToLeave, setEventToLeave] = useState(null);
   const [isLeaveOpen, setIsLeaveOpen] = useState(false);
-  const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure();
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onClose: onEditClose,
+  } = useDisclosure();
   const [eventToEdit, setEventToEdit] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const startLocationRef = useRef();
@@ -196,7 +200,6 @@ const AllEvents = () => {
 
       // Refresh the events list
       fetchData();
-
     } catch (error) {
       console.error("Error updating event:", error);
       setError("Failed to update event");
@@ -245,7 +248,12 @@ const AllEvents = () => {
                 {event.recurrence === "recurrent" && (
                   <Text>Recurrence Frequency: {event.recurrenceFrequency}</Text>
                 )}
-                <Button colorScheme="blue" mt={3} mr={3} onClick={() => openEditDialog(event)}>
+                <Button
+                  colorScheme="blue"
+                  mt={3}
+                  mr={3}
+                  onClick={() => openEditDialog(event)}
+                >
                   Edit
                 </Button>
 
@@ -492,7 +500,6 @@ const AllEvents = () => {
             </ModalFooter>
           </ModalContent>
         </Modal>
-
       </VStack>
     </Box>
   );
