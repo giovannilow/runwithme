@@ -20,8 +20,10 @@ import { WrapItem, Avatar } from "@chakra-ui/react";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Swal from "sweetalert2";
+import { useRouter } from "next/router";
 
 const Events = () => {
+  const router = useRouter();
   const db = getFirestore(app);
   const [events, setEvents] = useState([]);
   const [totalEvents, setTotalEvents] = useState();
@@ -47,6 +49,7 @@ const Events = () => {
     const eventDoc = doc(db, "events", id);
     await deleteDoc(eventDoc);
     Swal.fire("Deleted!", "Your event has been deleted.", "success");
+    router.push("/Admin");
   };
 
   useEffect(() => {
