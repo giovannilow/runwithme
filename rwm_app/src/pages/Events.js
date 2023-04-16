@@ -217,7 +217,13 @@ const AllEvents = () => {
   };
 
   return (
-    <Box>
+    <Box style={{
+      background: "#F8F8F8",
+      height: "100vh",
+      backgroundSize: "cover",
+      position: "relative",
+      backgroundPosition: "center",
+    }}>
       <VStack spacing={4} align="center" paddingTop="20px">
         <Heading>Events</Heading>
         <Heading size="md">My Events</Heading>
@@ -503,7 +509,7 @@ const AllEvents = () => {
           </ModalContent>
         </Modal>
       </VStack>
-    </Box>
+    </Box >
   );
 };
 
