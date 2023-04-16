@@ -21,6 +21,7 @@ import {
   deleteDoc,
 } from "firebase/firestore";
 import app from "@/pages/firebase";
+import { useRouter } from "next/router";
 
 ChartJS.register(
   CategoryScale,
@@ -32,6 +33,7 @@ ChartJS.register(
 );
 
 const BarChart = () => {
+  const router = useRouter();
   const db = getFirestore(app);
   const [events, setEvents] = useState([]);
   const [oneOffEvents, setOneOffEvents] = useState(0);
