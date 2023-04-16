@@ -52,7 +52,7 @@ const NavLink = ({ children }) => (
   </Link>
 );
 
-export default function withAction() {
+export default function NavBarAfterLogin() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [error, setError] = useState("");
   const { currentUser, logout } = useAuth();
@@ -92,7 +92,7 @@ export default function withAction() {
           />
           <HStack spacing={8} alignItems={"center"}>
             <Box onClick={() => router.push("/HomeAftLogin")}>
-              <IconButton icon={<Image src="/runwithme.png" w="40" />} />
+              <IconButton icon={<Image src="/RunWithMe.png" w="40" />} />
             </Box>
 
             <HStack

@@ -98,7 +98,7 @@ export default function About() {
                     a physical activity, but a way of life. Our mission is to
                     create a community where runners from all over the world can
                     connect, motivate each other, and share their love for the
-                    sport. Whether you're a beginner or a seasoned pro, our
+                    sport. Whether you are a beginner or a seasoned pro, our
                     platform offers a variety of features to help you achieve
                     your running goals. By creating and joining running events,
                     we strive to provide a fun and supportive environment for

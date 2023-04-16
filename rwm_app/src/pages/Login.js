@@ -33,7 +33,7 @@ export default function Login() {
       if (checkAdmin) {
         router.push("/Admin");
       } else {
-        router.push("/");
+        router.push("/HomeAftLogin");
       }
     } catch {
       setError("Failed to sign in");

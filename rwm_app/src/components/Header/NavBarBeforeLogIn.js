@@ -57,7 +57,7 @@ export default function WithSubnavigation() {
         </Flex>
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
           <Box onClick={() => router.push("/HomeBefLogin")}>
-            <IconButton icon={<Image src="/runwithme.png" w="40" />} />
+            <IconButton icon={<Image src="/RunWithMe.png" w="40" />} />
           </Box>
 
           <Flex display={{ base: "none", md: "flex" }} ml={10} mt={2}>
@@ -199,7 +199,7 @@ const MobileNavItem = ({ label, children, href }) => {
 
 const NAV_ITEMS = [
   {
-    label: "About Us",
+    label: "About",
     href: "/About",
   },
 ];

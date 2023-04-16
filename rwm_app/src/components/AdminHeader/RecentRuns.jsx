@@ -1,5 +1,5 @@
 import React from "react";
-import app from "@/pages/firebase";
+import { firestore } from "../contexts/Firebase";
 import { mockDataEvents } from "@/data/mockdata";
 import { BiRun } from "react-icons/bi";
 import {
@@ -8,7 +8,6 @@ import {
   collection,
   doc,
   setDoc,
-  firestore,
 } from "firebase/firestore";
 import { useState, useEffect } from "react";
 
@@ -21,7 +20,7 @@ const RecentRuns = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const querySnapshot = await getDocs(collection(db, "events"));
+        const querySnapshot = await getDocs(collection(firestore, "events"));
         const eventsArray = querySnapshot.docs.map((doc) => ({
           id: doc.id,
           ...doc.data(),

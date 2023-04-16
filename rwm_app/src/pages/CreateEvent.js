@@ -15,8 +15,7 @@ import { useRef, useState } from "react";
 import { useRouter } from "next/router";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { firestore } from "./firebase";
-import { getAuth } from "firebase/auth";
+import { firestore } from "../contexts/Firebase";
 import { doc, setDoc, addDoc, collection } from "firebase/firestore";
 
 export default function CreateEvent() {
@@ -45,7 +44,6 @@ export default function CreateEvent() {
       createdBy: currentUserUid,
       participants: [],
     };
-
 
     if (recurrence === "recurrent") {
       eventData.recurrenceFrequency = document.getElementById(

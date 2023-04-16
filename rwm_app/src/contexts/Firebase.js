@@ -1,4 +1,4 @@
-import firebase from "firebase/app";
+import firebase, { FirebaseError } from "firebase/app";
 import { initializeApp } from "firebase/app";
 import "firebase/auth";
 import { getAuth } from "firebase/auth";
@@ -8,7 +8,7 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyBBzojbQYPUjePUP6laVyY-X44PvXxxegE",
+  apiKey: "AIzaSyBBzojbQYPUjePUP6laVyY - X44PvXxxegE",
   authDomain: "runwithme-dev.firebaseapp.com",
   databaseURL:
     "https://runwithme-dev-default-rtdb.asia-southeast1.firebasedatabase.app/",
@@ -24,3 +24,5 @@ export const auth = getAuth();
 export const storage = getStorage();
 export const database = getDatabase();
 export const firestore = getFirestore(app);
+
+export default app;

@@ -6,9 +6,9 @@ import {
   collection,
   doc,
   setDoc,
-  firestore,
 } from "firebase/firestore";
-import app from "@/pages/firebase";
+import { firestore } from "../contexts/Firebase";
+
 import { BiRun } from "react-icons/bi";
 import { HiUsers } from "react-icons/hi";
 import { CgFeed } from "react-icons/cg";

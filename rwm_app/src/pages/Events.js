@@ -13,7 +13,7 @@ import {
   AlertDialogContent,
   AlertDialogOverlay,
 } from "@chakra-ui/react";
-import { firestore } from "./firebase";
+import { firestore } from "../contexts/Firebase";
 import {
   collection,
   getDocs,
@@ -22,10 +22,9 @@ import {
   arrayUnion,
   arrayRemove,
   deleteDoc,
-  setDoc
+  setDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
-
 
 const AllEvents = () => {
   const [events, setEvents] = useState([]);
@@ -56,7 +55,9 @@ const AllEvents = () => {
     fetchData();
   }, []);
 
-  const myEvents = events.filter((event) => event.createdBy === currentUser.uid);
+  const myEvents = events.filter(
+    (event) => event.createdBy === currentUser.uid
+  );
   const openEvents = events.filter(
     (event) => event.createdBy !== currentUser.uid
   );
@@ -73,7 +74,10 @@ const AllEvents = () => {
       setEvents(
         events.map((event) =>
           event.id === eventId
-            ? { ...event, participants: [...event.participants, currentUser.uid] }
+            ? {
+              ...event,
+              participants: [...event.participants, currentUser.uid],
+            }
             : event
         )
       );
@@ -91,7 +95,12 @@ const AllEvents = () => {
       setEvents(
         events.map((event) =>
           event.id === eventId
-            ? { ...event, participants: event.participants.filter((uid) => uid !== currentUser.uid) }
+            ? {
+              ...event,
+              participants: event.participants.filter(
+                (uid) => uid !== currentUser.uid
+              ),
+            }
             : event
         )
       );
@@ -118,7 +127,6 @@ const AllEvents = () => {
     setEventToLeave(eventId);
     setIsLeaveOpen(true);
   };
-
 
   if (loading) {
     return <Text>Loading events...</Text>;
@@ -153,26 +161,42 @@ const AllEvents = () => {
                 <Text>Pace: {event.pace} min/km</Text>
                 <Text>Type: {event.recurrence}</Text>
 
-              <Text fontWeight="bold">
-                Date & Time: {event.date.toDate().toDateString()}
-              </Text>
-              <Text>Start Location: {event.startLocation}</Text>
-              <Text>Distance: {event.distance} km</Text>
-              <Text>Pace: {event.pace} min/km</Text>
-              <Text>Type: {event.recurrence}</Text>
-
-              {event.recurrence === "recurrent" && (
-                <Text>Recurrence Frequency: {event.recurrenceFrequency}</Text>
-              )}
-            </Box>
-          ))) : ""}
+                {event.recurrence === "recurrent" && (
+                  <Text>Recurrence Frequency: {event.recurrenceFrequency}</Text>
+                )}
+                <Button
+                  colorScheme="red"
+                  mt={3}
+                  onClick={() => {
+                    setEventToDelete(event.id);
+                    setIsDeleteOpen(true);
+                  }}
+                >
+                  Delete
+                </Button>
+              </Box>
+            ))
+          ) : (
+            <Text>No events</Text>
+          )}
         </SimpleGrid>
         <Heading size="md">Open Events</Heading>
         {currentUser && (
-          <SimpleGrid columns={[1, null, 3]} spacing="40px" width="100%" paddingBottom="20px">
+          <SimpleGrid
+            columns={[1, null, 3]}
+            spacing="40px"
+            width="100%"
+            paddingBottom="20px"
+          >
             {openEvents.length > 0 ? (
               openEvents.map((event) => (
-                <Box key={event.id} borderWidth="1px" borderRadius="lg" overflow="hidden" p="4">
+                <Box
+                  key={event.id}
+                  borderWidth="1px"
+                  borderRadius="lg"
+                  overflow="hidden"
+                  p="4"
+                >
                   <Text fontWeight="bold">Title: {event.title}</Text>
                   <Text fontWeight="bold">
                     Date & Time: {event.date.toDate().toLocaleString()}
@@ -183,10 +207,16 @@ const AllEvents = () => {
                   <Text>Type: {event.recurrence}</Text>
 
                   {event.recurrence === "recurrent" && (
-                    <Text>Recurrence Frequency: {event.recurrenceFrequency}</Text>
+                    <Text>
+                      Recurrence Frequency: {event.recurrenceFrequency}
+                    </Text>
                   )}
                   <Button
-                    colorScheme={event.participants.includes(currentUser.uid) ? "red" : "blue"}
+                    colorScheme={
+                      event.participants.includes(currentUser.uid)
+                        ? "red"
+                        : "blue"
+                    }
                     mt={3}
                     onClick={() =>
                       event.participants.includes(currentUser.uid)
@@ -194,7 +224,10 @@ const AllEvents = () => {
                         : joinEvent(event.id)
                     }
                   >
-                    {event.participants.includes(currentUser.uid) ? "Leave" : "Join"} Event
+                    {event.participants.includes(currentUser.uid)
+                      ? "Leave"
+                      : "Join"}{" "}
+                    Event
                   </Button>
                 </Box>
               ))
@@ -216,13 +249,12 @@ const AllEvents = () => {
               </AlertDialogHeader>
 
               <AlertDialogBody>
-                Are you sure you want to delete this event? This action cannot be undone.
+                Are you sure you want to delete this event? This action cannot
+                be undone.
               </AlertDialogBody>
 
               <AlertDialogFooter>
-                <Button onClick={onClose}>
-                  Cancel
-                </Button>
+                <Button onClick={onClose}>Cancel</Button>
                 <Button colorScheme="red" onClick={deleteEvent} ml={3}>
                   Delete
                 </Button>
@@ -246,19 +278,23 @@ const AllEvents = () => {
               </AlertDialogBody>
 
               <AlertDialogFooter>
-                <Button onClick={() => setIsLeaveOpen(false)}>
-                  Cancel
-                </Button>
-                <Button colorScheme="red" onClick={() => { leaveEvent(eventToLeave); setIsLeaveOpen(false); }} ml={3}>
+                <Button onClick={() => setIsLeaveOpen(false)}>Cancel</Button>
+                <Button
+                  colorScheme="red"
+                  onClick={() => {
+                    leaveEvent(eventToLeave);
+                    setIsLeaveOpen(false);
+                  }}
+                  ml={3}
+                >
                   Leave
                 </Button>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialogOverlay>
         </AlertDialog>
-
-      </VStack >
-    </Box >
+      </VStack>
+    </Box>
   );
 };
 
