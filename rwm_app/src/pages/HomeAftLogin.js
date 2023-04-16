@@ -155,11 +155,11 @@ export default function HomeAftLogin() {
               width="100%"
             >
               {events.map((event) => (
-                <Center py={6}>
+                <Center py={6} key={event.id}>
                   <Box
                     maxW={"445px"}
                     w={"full"}
-                    bg={useColorModeValue("white", "gray.900")}
+                    bg="white"
                     boxShadow={"2xl"}
                     rounded={"md"}
                     margin="15px"
@@ -184,7 +184,7 @@ export default function HomeAftLogin() {
                     </Box>
                     <Stack>
                       <Heading
-                        color={useColorModeValue("gray.700", "white")}
+                        color="gray.700"
                         fontSize={"2xl"}
                         fontFamily={"body"}
                       >

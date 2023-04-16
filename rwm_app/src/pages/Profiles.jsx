@@ -22,7 +22,7 @@ import {
   updatePassword,
   deleteUser,
 } from "firebase/auth";
-import app from "@/pages/firebase";
+import app from "../contexts/Firebase";
 import { BsPersonFill, BsThreeDotsVertical } from "react-icons/bs";
 import { mockDataProfiles } from "@/data/mockdata";
 import { WrapItem, Avatar } from "@chakra-ui/react";

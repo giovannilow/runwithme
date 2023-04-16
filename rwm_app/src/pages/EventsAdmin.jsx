@@ -11,7 +11,7 @@ import {
   updateDoc,
   deleteDoc,
 } from "firebase/firestore";
-import app from "@/pages/firebase";
+import app from "../contexts/Firebase";
 import { FaShoppingBag } from "react-icons/fa";
 import { BsThreeDotsVertical, BsTrash, BsPencilSquare } from "react-icons/bs";
 import { mockDataEvents } from "@/data/mockdata.js";
