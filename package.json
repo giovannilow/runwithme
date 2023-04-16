@@ -1,6 +1,5 @@
 {
   "dependencies": {
-    "@cometchat-pro/chat": "^3.0.11",
     "dayjs": "^1.11.7",
     "next": "^13.3.0",
     "react": "^18.2.0",
