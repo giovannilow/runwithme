@@ -99,10 +99,10 @@ export default function Login() {
               Log In
             </Button>
           </form>
-          <Flex w-100 text-center mt-3 style={{ paddingTop: "15px" }}>
+          <Flex style={{ paddingTop: "15px" }}>
             <Link href={"/ForgotPassword"}>Forgot Password?</Link>
           </Flex>
-          <Flex w-100 text-center mt-2 style={{ paddingTop: "15px" }}>
+          <Flex style={{ paddingTop: "15px" }}>
             Need an account? &nbsp; <Link href="/SignUp"> Sign Up</Link>
           </Flex>
         </Flex>
