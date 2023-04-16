@@ -7,8 +7,8 @@ import {
   doc,
   setDoc,
 } from "firebase/firestore";
-import { firestore } from "../contexts/Firebase";
-
+import { firestore } from "../../contexts/Firebase";
+import app from "../../contexts/Firebase";
 import { BiRun } from "react-icons/bi";
 import { HiUsers } from "react-icons/hi";
 
