@@ -13,7 +13,6 @@ import {
   updateDoc,
   arrayRemove,
 } from "firebase/firestore";
-
 import {
   Avatar,
   Image,

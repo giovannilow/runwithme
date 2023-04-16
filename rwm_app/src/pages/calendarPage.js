@@ -1,12 +1,39 @@
 import React, { useEffect, useState } from "react";
-import { Text } from "@chakra-ui/react";
 import dayjs from "dayjs";
 import { generateDate } from "@/components/Calendar";
 import cn from "@/components/cn";
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { firestore } from "../contexts/Firebase";
-import { collection, getDocs } from "firebase/firestore";
+import {
+	collection,
+	getDocs,
+	where,
+	query,
+	orderBy,
+	limit,
+	doc,
+	setDoc,
+	arrayUnion,
+	updateDoc,
+	arrayRemove,
+} from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import {
+	Avatar,
+	Image,
+	Box,
+	Center,
+	Heading,
+	Text,
+	Button,
+	AlertDialog,
+	AlertDialogBody,
+	AlertDialogFooter,
+	AlertDialogHeader,
+	AlertDialogContent,
+	AlertDialogOverlay,
+	Stack
+} from "@chakra-ui/react";
 
 export default function Calendar() {
 	const { currentUser } = getAuth();
@@ -29,6 +56,8 @@ export default function Calendar() {
 
 	const [events, setEvents] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const [isLeaveOpen, setIsLeaveOpen] = useState(false);
+	const [eventToLeave, setEventToLeave] = useState(null);
 	// const [events, setEvents] = useState([
 	// 	{
 	// 	  title: "Event 1",
@@ -73,6 +102,59 @@ export default function Calendar() {
 	// if (loading) {
 	// return <Text>Loading events...</Text>;
 	// }
+
+	// Function to join an event
+	const joinEvent = async (eventId) => {
+		try {
+			const eventRef = doc(firestore, "events", eventId);
+			await setDoc(
+				eventRef,
+				{ participants: arrayUnion(currentUser.uid) },
+				{ merge: true }
+			);
+			setEvents(
+				events.map((event) =>
+					event.id === eventId
+						? {
+							...event,
+							participants: [...event.participants, currentUser.uid],
+						}
+						: event
+				)
+			);
+		} catch (error) {
+			console.error("Error joining event:", error);
+		}
+	};
+
+	// Function to leave an event
+	const leaveEvent = async (eventId) => {
+		try {
+			const eventRef = doc(firestore, "events", eventId);
+			await updateDoc(eventRef, {
+				participants: arrayRemove(currentUser.uid),
+			});
+			setEvents(
+				events.map((event) =>
+					event.id === eventId
+						? {
+							...event,
+							participants: event.participants.filter(
+								(uid) => uid !== currentUser.uid
+							),
+						}
+						: event
+				)
+			);
+		} catch (error) {
+			console.error("Error leaving event:", error);
+		}
+	};
+
+	const openLeaveDialog = (eventId) => {
+		setEventToLeave(eventId);
+		setIsLeaveOpen(true);
+	};
 
 	return (
 		<div className="flex gap-10 sm:divide-x justify-center sm:w-1/2 mx-auto  h-screen items-center sm:flex-row flex-col">
@@ -189,6 +271,20 @@ export default function Calendar() {
 									{event.recurrence}
 								</p>
 								<p>Start Location: {event.startLocation}</p>
+								<Button
+									colorScheme={
+										event.participants.includes(currentUser.uid) ? "red" : "blue"
+									}
+									mt={3}
+									onClick={() =>
+										event.participants.includes(currentUser.uid)
+											? openLeaveDialog(event.id)
+											: joinEvent(event.id)
+									}
+									isDisabled={event.createdBy === currentUser.uid}
+								>
+									{event.participants.includes(currentUser.uid) ? "Leave" : "Join"} Event
+								</Button>
 							</div>
 						))}
 					{events.filter(
@@ -199,6 +295,37 @@ export default function Calendar() {
 							<p className="text-gray-400">No events for today.</p>
 						)}
 				</div>
+				<AlertDialog
+					isOpen={isLeaveOpen}
+					leastDestructiveRef={undefined}
+					onClose={() => setIsLeaveOpen(false)}
+				>
+					<AlertDialogOverlay>
+						<AlertDialogContent>
+							<AlertDialogHeader fontSize="lg" fontWeight="bold">
+								Leave Event
+							</AlertDialogHeader>
+
+							<AlertDialogBody>
+								Are you sure you want to leave this event?
+							</AlertDialogBody>
+
+							<AlertDialogFooter>
+								<Button onClick={() => setIsLeaveOpen(false)}>Cancel</Button>
+								<Button
+									colorScheme="red"
+									onClick={() => {
+										leaveEvent(eventToLeave);
+										setIsLeaveOpen(false);
+									}}
+									ml={3}
+								>
+									Leave
+								</Button>
+							</AlertDialogFooter>
+						</AlertDialogContent>
+					</AlertDialogOverlay>
+				</AlertDialog>
 			</div>
 		</div>
 	);
