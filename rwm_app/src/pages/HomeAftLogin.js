@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { firestore } from "../contexts/Firebase";
 import {
   collection,
@@ -16,20 +16,10 @@ import {
 
 import {
   Avatar,
-  IconButton,
-  useBreakpointValue,
-  Container,
-  Badge,
   Image,
-  Flex,
-  StackDivider,
-  Icon,
-  useColorModeValue,
   Box,
   Center,
   Heading,
-  SimpleGrid,
-  VStack,
   Text,
   Button,
   AlertDialog,
@@ -38,22 +28,7 @@ import {
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
-  Modal,
-  ModalOverlay,
-  ModalContent,
-  ModalHeader,
-  ModalCloseButton,
-  ModalBody,
-  ModalFooter,
-  useDisclosure,
-  FormControl,
-  FormLabel,
-  Select,
-  Radio,
-  Stack,
-  RadioGroup,
-  Input
-} from "@chakra-ui/react";
+  Stack} from "@chakra-ui/react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { useAuth } from "../contexts/AuthContext";
