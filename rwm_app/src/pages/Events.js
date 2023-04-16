@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Box,
   Heading,
@@ -12,6 +12,20 @@ import {
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  FormControl,
+  FormLabel,
+  Select,
+  Radio,
+  Stack,
+  RadioGroup,
 } from "@chakra-ui/react";
 import { firestore } from "../contexts/Firebase";
 import {
@@ -25,6 +39,9 @@ import {
   setDoc,
 } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
+import { Input } from "postcss";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const AllEvents = () => {
   const [events, setEvents] = useState([]);
@@ -33,6 +50,14 @@ const AllEvents = () => {
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [eventToLeave, setEventToLeave] = useState(null);
   const [isLeaveOpen, setIsLeaveOpen] = useState(false);
+  const { isOpen: isEditOpen, onOpen: onEditOpen, onClose: onEditClose } = useDisclosure();
+  const [eventToEdit, setEventToEdit] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const startLocationRef = useRef();
+  const distanceRef = useRef();
+  const paceRef = useRef();
+  const titleRef = useRef();
+  const [recurrence, setRecurrence] = useState("one-off");
 
   const { currentUser } = getAuth();
 
@@ -128,6 +153,51 @@ const AllEvents = () => {
     setIsLeaveOpen(true);
   };
 
+  const openEditDialog = (event) => {
+    setEventToEdit(event);
+    onEditOpen();
+  };
+  async function handleEditSubmit(e) {
+    e.preventDefault();
+
+    // Update the eventToEdit object with the new values from the form inputs
+    const updatedEvent = {
+      ...eventToEdit,
+      title: titleRef.current.value,
+      date: startDate,
+      startLocation: startLocationRef.current.value,
+      distance: distanceRef.current.value,
+      pace: paceRef.current.value,
+      recurrence,
+    };
+
+    if (recurrence === "recurrent") {
+      updatedEvent.recurrenceFrequency = document.getElementById(
+        "recurrenceFrequency"
+      ).value;
+    }
+
+    try {
+      setError("");
+      setLoading(true);
+
+      // Update the event document in Firestore
+      const eventRef = doc(firestore, "events", eventToEdit.id);
+      await updateDoc(eventRef, updatedEvent);
+
+      // Close the edit modal after saving the changes
+      onEditClose();
+
+      // Refresh the events list
+      fetchData();
+
+    } catch (error) {
+      console.error("Error updating event:", error);
+      setError("Failed to update event");
+    }
+
+    setLoading(false);
+  }
   if (loading) {
     return <Text>Loading events...</Text>;
   }
@@ -164,6 +234,10 @@ const AllEvents = () => {
                 {event.recurrence === "recurrent" && (
                   <Text>Recurrence Frequency: {event.recurrenceFrequency}</Text>
                 )}
+                <Button colorScheme="blue" mt={3} mr={3} onClick={() => openEditDialog(event)}>
+                  Edit
+                </Button>
+
                 <Button
                   colorScheme="red"
                   mt={3}
@@ -293,6 +367,123 @@ const AllEvents = () => {
             </AlertDialogContent>
           </AlertDialogOverlay>
         </AlertDialog>
+        <Modal isOpen={isEditOpen} onClose={onEditClose}>
+          <ModalOverlay />
+          <ModalContent>
+            <ModalHeader>Edit Event</ModalHeader>
+            <ModalCloseButton />
+            <ModalBody>
+              {/* Adapted CreateEvent form */}
+              <form onSubmit={handleEditSubmit}>
+                <FormControl isRequired>
+                  <FormLabel>Title</FormLabel>
+                  <Input
+                    id="title"
+                    placeholder="Enter Title of Event"
+                    ref={titleRef}
+                    defaultValue={eventToEdit?.title}
+                    variant="filled"
+                    mb={3}
+                  />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel>Date & Time</FormLabel>
+                  <Box mb={3} width="400px">
+                    <DatePicker
+                      id="date"
+                      selected={startDate || eventToEdit?.date.toDate()}
+                      onChange={(date) => setStartDate(date)}
+                      showTimeSelect
+                      timeFormat="HH:mm"
+                      timeIntervals={15}
+                      dateFormat="Pp"
+                      placeholderText="Select date & time"
+                      mb={3}
+                    />
+                  </Box>
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel>Start Location</FormLabel>
+                  <Input
+                    id="startLocation"
+                    placeholder="Enter start location (postal code)"
+                    ref={startLocationRef}
+                    defaultValue={eventToEdit?.startLocation}
+                    variant="filled"
+                    mb={3}
+                  />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel>Distance (km)</FormLabel>
+                  <Input
+                    id="distance"
+                    placeholder="Enter distance"
+                    ref={distanceRef}
+                    defaultValue={eventToEdit?.distance}
+                    variant="filled"
+                    mb={3}
+                    type="number"
+                  />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel>Pace (min per km)</FormLabel>
+                  <Input
+                    id="pace"
+                    placeholder="Enter pace"
+                    ref={paceRef}
+                    defaultValue={eventToEdit?.pace}
+                    variant="filled"
+                    mb={3}
+                    type="number"
+                    step="0.01"
+                  />
+                </FormControl>
+                <FormControl isRequired>
+                  <FormLabel>Recurrent or One-off</FormLabel>
+                  <RadioGroup
+                    onChange={(value) => setRecurrence(value)}
+                    value={recurrence}
+                    mb={6}
+                  >
+                    <Stack spacing={5} direction="row">
+                      <Radio value="one-off">One-off</Radio>
+                      <Radio value="recurrent">Recurrent</Radio>
+                    </Stack>
+                  </RadioGroup>
+                  {recurrence === "recurrent" && (
+                    <FormControl isRequired>
+                      <FormLabel>Recurrence Frequency</FormLabel>
+                      <Select
+                        id="recurrenceFrequency"
+                        value={eventToEdit?.recurrenceFrequency}
+                        placeholder="Select recurrence frequency"
+                        mb={3}
+                      >
+                        <option value="daily">Daily</option>
+                        <option value="weekly">Weekly</option>
+                        <option value="biweekly">Bi-weekly</option>
+                        <option value="monthly">Monthly</option>
+                      </Select>
+                    </FormControl>
+                  )}
+                </FormControl>
+                <Button disabled={loading} colorScheme="teal" type="submit">
+                  Save Changes
+                </Button>
+              </form>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button colorScheme="blue" onClick={handleEditSubmit}>
+                Save Changes
+              </Button>
+              <Button colorScheme="gray" ml={3} onClick={onEditClose}>
+                Cancel
+              </Button>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+
       </VStack>
     </Box>
   );
