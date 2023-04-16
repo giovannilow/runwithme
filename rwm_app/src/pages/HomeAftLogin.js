@@ -7,24 +7,52 @@ import {
   query,
   orderBy,
   limit,
+  doc,
+  setDoc,
+  arrayUnion,
+  updateDoc,
+  arrayRemove,
 } from "firebase/firestore";
+
 import {
-  Box,
-  Center,
   Avatar,
   IconButton,
   useBreakpointValue,
-  Button,
   Container,
   Badge,
   Image,
   Flex,
-  Heading,
-  Text,
-  Stack,
   StackDivider,
   Icon,
   useColorModeValue,
+  Box,
+  Center,
+  Heading,
+  SimpleGrid,
+  VStack,
+  Text,
+  Button,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  useDisclosure,
+  FormControl,
+  FormLabel,
+  Select,
+  Radio,
+  Stack,
+  RadioGroup,
+  Input
 } from "@chakra-ui/react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -52,6 +80,9 @@ const responsive = {
 export default function HomeAftLogin() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isLeaveOpen, setIsLeaveOpen] = useState(false);
+  const [eventToLeave, setEventToLeave] = useState(null);
+
   const { currentUser } = useAuth();
   const today = new Date();
   useEffect(() => {
@@ -81,6 +112,60 @@ export default function HomeAftLogin() {
   if (!events) {
     return <Text>Loading events...</Text>;
   }
+
+
+  // Function to join an event
+  const joinEvent = async (eventId) => {
+    try {
+      const eventRef = doc(firestore, "events", eventId);
+      await setDoc(
+        eventRef,
+        { participants: arrayUnion(currentUser.uid) },
+        { merge: true }
+      );
+      setEvents(
+        events.map((event) =>
+          event.id === eventId
+            ? {
+              ...event,
+              participants: [...event.participants, currentUser.uid],
+            }
+            : event
+        )
+      );
+    } catch (error) {
+      console.error("Error joining event:", error);
+    }
+  };
+
+  // Function to leave an event
+  const leaveEvent = async (eventId) => {
+    try {
+      const eventRef = doc(firestore, "events", eventId);
+      await updateDoc(eventRef, {
+        participants: arrayRemove(currentUser.uid),
+      });
+      setEvents(
+        events.map((event) =>
+          event.id === eventId
+            ? {
+              ...event,
+              participants: event.participants.filter(
+                (uid) => uid !== currentUser.uid
+              ),
+            }
+            : event
+        )
+      );
+    } catch (error) {
+      console.error("Error leaving event:", error);
+    }
+  };
+
+  const openLeaveDialog = (eventId) => {
+    setEventToLeave(eventId);
+    setIsLeaveOpen(true);
+  };
 
   return (
     <div
@@ -224,7 +309,21 @@ export default function HomeAftLogin() {
                       <Stack direction={"column"} spacing={0} fontSize={"sm"}>
                         <Text fontWeight={600}></Text>
                         <Text color={"gray.500"}></Text>
-                        <Button> Join Run </Button>
+                        <Button
+                          colorScheme={
+                            event.participants.includes(currentUser.uid) ? "red" : "blue"
+                          }
+                          mt={3}
+                          onClick={() =>
+                            event.participants.includes(currentUser.uid)
+                              ? openLeaveDialog(event.id)
+                              : joinEvent(event.id)
+                          }
+                          isDisabled={event.createdBy === currentUser.uid}
+                        >
+                          {event.participants.includes(currentUser.uid) ? "Leave" : "Join"} Event
+                        </Button>
+
                       </Stack>
                     </Stack>
                   </Box>
@@ -265,6 +364,37 @@ export default function HomeAftLogin() {
             </Carousel>
           </div>
         )}
+        <AlertDialog
+          isOpen={isLeaveOpen}
+          leastDestructiveRef={undefined}
+          onClose={() => setIsLeaveOpen(false)}
+        >
+          <AlertDialogOverlay>
+            <AlertDialogContent>
+              <AlertDialogHeader fontSize="lg" fontWeight="bold">
+                Leave Event
+              </AlertDialogHeader>
+
+              <AlertDialogBody>
+                Are you sure you want to leave this event?
+              </AlertDialogBody>
+
+              <AlertDialogFooter>
+                <Button onClick={() => setIsLeaveOpen(false)}>Cancel</Button>
+                <Button
+                  colorScheme="red"
+                  onClick={() => {
+                    leaveEvent(eventToLeave);
+                    setIsLeaveOpen(false);
+                  }}
+                  ml={3}
+                >
+                  Leave
+                </Button>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialogOverlay>
+        </AlertDialog>
       </div>
     </div>
   );

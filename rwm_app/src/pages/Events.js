@@ -103,9 +103,9 @@ const AllEvents = () => {
         events.map((event) =>
           event.id === eventId
             ? {
-                ...event,
-                participants: [...event.participants, currentUser.uid],
-              }
+              ...event,
+              participants: [...event.participants, currentUser.uid],
+            }
             : event
         )
       );
@@ -125,11 +125,11 @@ const AllEvents = () => {
         events.map((event) =>
           event.id === eventId
             ? {
-                ...event,
-                participants: event.participants.filter(
-                  (uid) => uid !== currentUser.uid
-                ),
-              }
+              ...event,
+              participants: event.participants.filter(
+                (uid) => uid !== currentUser.uid
+              ),
+            }
             : event
         )
       );
@@ -207,6 +207,11 @@ const AllEvents = () => {
   if (loading) {
     return <Text>Loading events...</Text>;
   }
+
+  const isPastEvent = (eventDate) => {
+    const currentDate = new Date();
+    return eventDate.toDate() < currentDate;
+  };
 
   return (
     <Box>
@@ -293,9 +298,7 @@ const AllEvents = () => {
                   )}
                   <Button
                     colorScheme={
-                      event.participants.includes(currentUser.uid)
-                        ? "red"
-                        : "blue"
+                      event.participants.includes(currentUser.uid) ? "red" : "blue"
                     }
                     mt={3}
                     onClick={() =>
@@ -303,11 +306,9 @@ const AllEvents = () => {
                         ? openLeaveDialog(event.id)
                         : joinEvent(event.id)
                     }
+                    isDisabled={isPastEvent(event.date)} // Add this line to disable the button for past events
                   >
-                    {event.participants.includes(currentUser.uid)
-                      ? "Leave"
-                      : "Join"}{" "}
-                    Event
+                    {event.participants.includes(currentUser.uid) ? "Leave" : "Join"} Event
                   </Button>
                 </Box>
               ))
@@ -342,6 +343,7 @@ const AllEvents = () => {
             </AlertDialogContent>
           </AlertDialogOverlay>
         </AlertDialog>
+
         <AlertDialog
           isOpen={isLeaveOpen}
           leastDestructiveRef={undefined}
@@ -373,6 +375,7 @@ const AllEvents = () => {
             </AlertDialogContent>
           </AlertDialogOverlay>
         </AlertDialog>
+
         <Modal isOpen={isEditOpen} onClose={onEditClose}>
           <ModalOverlay />
           <ModalContent>
